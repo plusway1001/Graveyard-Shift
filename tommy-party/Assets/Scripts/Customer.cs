@@ -50,11 +50,24 @@ public class Customer : MonoBehaviour
 
     private void DecreasePatience()
     {
-        // Stop decreasing once patience has reached zero.
         if (patienceEmpty)
             return;
 
-        patience -= patienceDecreasePerSecond * Time.deltaTime;
+        float nightMultiplier = 1f;
+
+        if (NightCycleManager.Instance != null)
+        {
+            nightMultiplier =
+                NightCycleManager.Instance.GetPatienceMultiplier();
+        }
+
+        float currentDecreaseRate =
+            patienceDecreasePerSecond *
+            nightMultiplier;
+
+        patience -=
+            currentDecreaseRate *
+            Time.deltaTime;
 
         patience = Mathf.Clamp(
             patience,
@@ -64,7 +77,6 @@ public class Customer : MonoBehaviour
 
         UpdatePatienceUI();
 
-        // Patience has reached zero.
         if (patience <= 0f)
         {
             patienceEmpty = true;
@@ -142,62 +154,27 @@ public class Customer : MonoBehaviour
     }
 }
 
-/*using UnityEngine;
-
-public class Customer : MonoBehaviour
-{
-    [Header("Customer Data")]
-    [SerializeField] private CustomerType customerType;
-    [SerializeField] private string customerName;
-
-    // Kept separate so the future patience/mood system can use these values.
-    [Header("Future Mood System")]
-    [SerializeField, Range(0f, 100f)] private float patience = 100f;
-    [SerializeField] private float baseMoodDecay = 1f;
-
-    [SerializeField]
-    private CustomerVisual customerVisual;
-
-    public CustomerType Type => customerType;
-    public string CustomerName => string.IsNullOrWhiteSpace(customerName)
-        ? customerType.ToString()
-        : customerName;
-
-    public float Patience => patience;
-    public float BaseMoodDecay => baseMoodDecay;
-
-    public void SetCustomerType(CustomerType type)
+/*private void DecreasePatience()
     {
-        customerType = type;
-
-        if (customerVisual != null)
-        {
-            customerVisual.SetVisual(type);
-        }
-    }
-
-    public void SetCustomerName(string value)
-    {
-        customerName = value;
-    }
-
-    // Called by the table when this customer is assigned.
-    public void SeatAt(Transform seat)
-    {
-        if (seat == null)
+        // Stop decreasing once patience has reached zero.
+        if (patienceEmpty)
             return;
 
-        transform.SetPositionAndRotation(seat.position, seat.rotation);
-        transform.SetParent(seat);
-    }
+        patience -= patienceDecreasePerSecond * Time.deltaTime;
 
-    // Future mood system can call this.
-    public void ChangePatience(float amount)
-    {
-        patience = Mathf.Clamp(patience + amount, 0f, 100f);
-    }
+        patience = Mathf.Clamp(
+            patience,
+            0f,
+            maxPatience
+        );
 
-    
+        UpdatePatienceUI();
 
-    
-}*/
+        // Patience has reached zero.
+        if (patience <= 0f)
+        {
+            patienceEmpty = true;
+
+            OnPatienceEmpty();
+        }
+    }*/

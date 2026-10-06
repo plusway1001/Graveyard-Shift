@@ -675,7 +675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NightCycleManager
   startHour: 20
   endHour: 6
-  realSecondsPerNight: 300
+  realSecondsPerNight: 60
   currentHour: 20
   youngNightMultiplier: 0.5
   lateNightMultiplier: 1
