@@ -1,6 +1,7 @@
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class TableUIManager : MonoBehaviour
 {
@@ -96,7 +97,45 @@ public class TableUIManager : MonoBehaviour
         }
     }
 
+
     private void AssignCustomer(Customer customer)
+    {
+        if (currentTable == null || customer == null)
+            return;
+
+        if (!customerQueue.Customers.Contains(customer))
+        {
+            RefreshUI();
+            return;
+        }
+
+        bool seated = currentTable.TrySeatCustomer(customer);
+
+        if (!seated)
+        {
+            RefreshUI();
+            return;
+        }
+
+        customerQueue.RemoveCustomer(customer);
+
+        // A riot may have destroyed the seated customer immediately.
+        // Refresh the UI after the seating operation.
+        if (currentTable == null)
+            return;
+
+        if (currentTable.IsFull || customerQueue.Count == 0)
+        {
+            CloseTable();
+        }
+        else
+        {
+            RefreshUI();
+        }
+    }
+
+
+    /*private void AssignCustomer(Customer customer)
     {
         if (currentTable == null || customer == null)
             return;
@@ -118,7 +157,8 @@ public class TableUIManager : MonoBehaviour
         {
             RefreshUI();
         }
-    }
+    }*/
+
 
     private void ClearButtons()
     {
@@ -127,9 +167,27 @@ public class TableUIManager : MonoBehaviour
 
         for (int i = customerButtonContainer.childCount - 1; i >= 0; i--)
         {
-            Destroy(customerButtonContainer.GetChild(i).gameObject);
+            GameObject button =
+                customerButtonContainer.GetChild(i).gameObject;
+
+            // Hide immediately so old buttons don't remain visible.
+            button.SetActive(false);
+
+            Destroy(button);
         }
     }
+
+
+    /*private void ClearButtons()
+    {
+        if (customerButtonContainer == null)
+            return;
+
+        for (int i = customerButtonContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(customerButtonContainer.GetChild(i).gameObject);
+        }
+    }*/
 
     private void Update()
     {

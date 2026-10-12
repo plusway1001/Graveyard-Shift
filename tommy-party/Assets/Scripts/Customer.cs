@@ -35,6 +35,9 @@ public class Customer : MonoBehaviour
     public float Patience => patience;
     public float MaxPatience => maxPatience;
 
+    private bool patienceExpired = false;
+    public bool PatienceExpired => patienceExpired;
+
     private void Start()
     {
         // Every customer starts with 100% patience.
@@ -108,7 +111,7 @@ public class Customer : MonoBehaviour
         customerName = value;
     }
 
-    public void SeatAt(Transform seat)
+    /*public void SeatAt(Transform seat)
     {
         if (seat == null)
             return;
@@ -119,7 +122,46 @@ public class Customer : MonoBehaviour
         );
 
         transform.SetParent(seat);
+
+        // Find the riot controller on the table root.
+        TableRiotController table =
+            GetComponentInParent<TableRiotController>();
+
+        if (table != null)
+        {
+            table.RegisterCustomer(this);
+        }
+    }*/
+
+
+    public void SeatAt(Transform seat)
+    {
+        if (seat == null)
+            return;
+
+        // Move the customer to the selected seat.
+        transform.SetPositionAndRotation(
+            seat.position,
+            seat.rotation
+        );
+
+        // Parent the customer to the seat.
+        transform.SetParent(seat);
+
+        // Apply the patience bonus to this customer.
+        OnCustomerSeated();
+
+        // Register the customer with the table's riot controller.
+        TableRiotController table =
+            GetComponentInParent<TableRiotController>();
+
+        if (table != null)
+        {
+            table.RegisterCustomer(this);
+        }
     }
+
+
 
     // ============================================
     // FUTURE FOOD SYSTEM
@@ -141,40 +183,50 @@ public class Customer : MonoBehaviour
     // FUTURE RIOT / GAME OVER SYSTEM
     // ============================================
 
+
     private void OnPatienceEmpty()
     {
-        // BLANK FOR NOW.
-        //
-        // Later:
-        // - Tell the table that this customer's patience is 0
-        // - Start table riot
-        // - Change customer FSM to RIOT
-        // - Spawn projectiles
-        // - Drop ingredients
-    }
-}
+        // Queue customers have no TableRiotController parent,
+        // so reaching zero while waiting will not cause a riot.
+        TableRiotController table =
+            GetComponentInParent<TableRiotController>();
 
-/*private void DecreasePatience()
+        if (table != null)
+        {
+            table.NotifyCustomerPatienceEmpty(this);
+        }
+
+        // Future game-over or other handling can be added here.
+    }
+
+    public void ForcePatienceToZero()
     {
-        // Stop decreasing once patience has reached zero.
         if (patienceEmpty)
             return;
 
-        patience -= patienceDecreasePerSecond * Time.deltaTime;
+        patience = 0f;
+        patienceEmpty = true;
+
+        UpdatePatienceUI();
+    }
+
+
+    [Header("Seating Patience Bonus")]
+    [SerializeField, Min(0f)]
+    private float seatingPatienceBonus = 10f;
+
+    public void OnCustomerSeated()
+    {
+        if (patienceExpired)
+            return;
 
         patience = Mathf.Clamp(
-            patience,
+            patience + seatingPatienceBonus,
             0f,
             maxPatience
         );
 
         UpdatePatienceUI();
+    }
 
-        // Patience has reached zero.
-        if (patience <= 0f)
-        {
-            patienceEmpty = true;
-
-            OnPatienceEmpty();
-        }
-    }*/
+}
