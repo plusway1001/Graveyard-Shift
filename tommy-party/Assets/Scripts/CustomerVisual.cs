@@ -1,4 +1,39 @@
-using UnityEngine;
+/*using UnityEngine;
+
+public class CustomerVisual : MonoBehaviour
+{
+    [System.Serializable]
+    private struct TypeSprite
+    {
+        public CustomerType type;
+        public Sprite sprite;
+    }
+
+    [SerializeField] private TypeSprite[] sprites;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
+    }
+
+    public void SetVisual(CustomerType type)
+    {
+        foreach (var entry in sprites)
+        {
+            if (entry.type == type && entry.sprite != null)
+            {
+                spriteRenderer.sprite = entry.sprite;
+                return;
+            }
+        }
+
+        Debug.LogError($"{name}: No sprite for {type}", this);
+    }
+}*/
+
+/*using UnityEngine;
 
 public class CustomerVisual : MonoBehaviour
 {
@@ -26,4 +61,4 @@ public class CustomerVisual : MonoBehaviour
                 break;
         }
     }
-}
+}*/

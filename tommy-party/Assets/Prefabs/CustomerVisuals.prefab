@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995f6f5cfccb22b4fb5800a6020d1f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerVisual
-  ghostSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  zombieSprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  ghoulSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  sprites:
+  - type: 0
+    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 2
+    sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 1
+    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   spriteRenderer: {fileID: 4472666963168391972, guid: 9b85f2c9ee171674ba8e3527c9ab847c, type: 3}

@@ -23,8 +23,8 @@ public class Customer : MonoBehaviour
 
     private bool patienceEmpty = false;
 
-    [SerializeField]
-    private CustomerVisual customerVisual;
+    //[SerializeField]
+    //private CustomerVisual customerVisual;
 
     public CustomerType Type => customerType;
     public string CustomerName =>
@@ -37,6 +37,29 @@ public class Customer : MonoBehaviour
 
     private bool patienceExpired = false;
     public bool PatienceExpired => patienceExpired;
+
+    [System.Serializable]
+    private struct TypeSprite
+    {
+        public CustomerType type;
+        public Sprite sprite;
+    }
+
+    [SerializeField] private TypeSprite[] sprites;
+
+    public void SetVisual(CustomerType type)
+    {
+        foreach (var entry in sprites)
+        {
+            if (entry.type == type && entry.sprite != null)
+            {
+                this.GetComponent<SpriteRenderer>().sprite = entry.sprite;
+                return;
+            }
+        }
+
+        Debug.LogError($"{name}: No sprite for {type}", this);
+    }
 
     private void Start()
     {
@@ -53,7 +76,8 @@ public class Customer : MonoBehaviour
 
     private void DecreasePatience()
     {
-        if (patienceEmpty)
+        if (patience <= 0f)
+            //if (patienceEmpty)
             return;
 
         float nightMultiplier = 1f;
@@ -82,7 +106,7 @@ public class Customer : MonoBehaviour
 
         if (patience <= 0f)
         {
-            patienceEmpty = true;
+            //patienceEmpty = true;
 
             OnPatienceEmpty();
         }
@@ -96,14 +120,50 @@ public class Customer : MonoBehaviour
         patienceSlider.value = patience / maxPatience;
     }
 
-    public void SetCustomerType(CustomerType type)
+
+
+    /*public void SetCustomerType(CustomerType type)
     {
         customerType = type;
+        customerName = type.ToString();
+
+        // Recover the reference if it wasn't assigned in the Inspector.
+        if (customerVisual == null)
+        {
+            customerVisual = GetComponent<CustomerVisual>();
+
+            if (customerVisual == null)
+            {
+                customerVisual =
+                    GetComponentInChildren<CustomerVisual>(true);
+            }
+        }
 
         if (customerVisual != null)
         {
-            customerVisual.SetVisual(type);
+            customerVisual.SetVisual(customerType);
         }
+        else
+        {
+            Debug.LogError(
+                $"{name}: CustomerVisual is missing from the customer prefab!",
+                this
+            );
+        }
+    }*/
+
+
+    public void SetCustomerType(CustomerType type)
+    {
+        customerType = type;
+        customerName = type.ToString();
+
+        SetVisual(type);
+
+        /*if (customerVisual != null)
+        {
+            customerVisual.SetVisual(type);
+        }*/
     }
 
     public void SetCustomerName(string value)
@@ -139,6 +199,45 @@ public class Customer : MonoBehaviour
         if (seat == null)
             return;
 
+        // Find the table controller BEFORE changing the hierarchy.
+        TableRiotController table =
+            seat.GetComponentInParent<TableRiotController>();
+
+        // Teleport to the chosen seat.
+        transform.SetParent(seat, false);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+
+        // Restore the correct visual after seating.
+        //if (customerVisual == null)
+            //customerVisual = GetComponentInChildren<CustomerVisual>();
+
+        //if (customerVisual != null)
+            //customerVisual.SetVisual(customerType);
+
+        // Apply seating patience bonus.
+        OnCustomerSeated();
+
+        // Register with the correct table.
+        if (table != null)
+        {
+            table.RegisterCustomer(this);
+        }
+        else
+        {
+            Debug.LogWarning(
+                $"No TableRiotController found above seat {seat.name}.",
+                this
+            );
+        }
+    }
+
+
+    /*public void SeatAt(Transform seat)
+    {
+        if (seat == null)
+            return;
+
         // Move the customer to the selected seat.
         transform.SetPositionAndRotation(
             seat.position,
@@ -159,7 +258,7 @@ public class Customer : MonoBehaviour
         {
             table.RegisterCustomer(this);
         }
-    }
+    }*/
 
 
 

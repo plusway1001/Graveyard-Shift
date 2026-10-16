@@ -462,7 +462,13 @@ MonoBehaviour:
   patience: 100
   patienceDecreasePerSecond: 5
   patienceSlider: {fileID: 6746289373981802703}
-  customerVisual: {fileID: 3883543867988889533, guid: 5467b620906e4d34f959ddf391a75e8e, type: 3}
+  sprites:
+  - type: 0
+    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 2
+    sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 1
+    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   seatingPatienceBonus: 30
 --- !u!1 &8168089075091643461
 GameObject:
