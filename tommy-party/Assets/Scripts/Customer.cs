@@ -25,6 +25,7 @@ public class Customer : MonoBehaviour
 
     //[SerializeField]
     //private CustomerVisual customerVisual;
+    private TableRiotController seatedTable;
 
     public CustomerType Type => customerType;
     public string CustomerName =>
@@ -152,7 +153,16 @@ public class Customer : MonoBehaviour
         }
     }*/
 
+    public void SetSeatedTable(TableRiotController table)
+    {
+        seatedTable = table;
+    }
 
+    public void ClearSeatedTable(TableRiotController table)
+    {
+        if (seatedTable == table)
+            seatedTable = null;
+    }
     public void SetCustomerType(CustomerType type)
     {
         customerType = type;
@@ -193,8 +203,38 @@ public class Customer : MonoBehaviour
         }
     }*/
 
-
     public void SeatAt(Transform seat)
+    {
+        if (seat == null)
+            return;
+
+        transform.SetPositionAndRotation(
+            seat.position,
+            seat.rotation
+        );
+
+        transform.SetParent(seat);
+
+        // Find the table controller from the seat's hierarchy.
+        TableRiotController table =
+            seat.GetComponentInParent<TableRiotController>();
+
+        if (table == null)
+        {
+            Debug.LogError(
+                $"No TableRiotController found for seat {seat.name}."
+            );
+            return;
+        }
+
+        seatedTable = table;
+
+        OnCustomerSeated();
+
+        // Register after the customer has been seated.
+        table.RegisterCustomer(this);
+    }
+    /*public void SeatAt(Transform seat)
     {
         if (seat == null)
             return;
@@ -230,34 +270,6 @@ public class Customer : MonoBehaviour
                 this
             );
         }
-    }
-
-
-    /*public void SeatAt(Transform seat)
-    {
-        if (seat == null)
-            return;
-
-        // Move the customer to the selected seat.
-        transform.SetPositionAndRotation(
-            seat.position,
-            seat.rotation
-        );
-
-        // Parent the customer to the seat.
-        transform.SetParent(seat);
-
-        // Apply the patience bonus to this customer.
-        OnCustomerSeated();
-
-        // Register the customer with the table's riot controller.
-        TableRiotController table =
-            GetComponentInParent<TableRiotController>();
-
-        if (table != null)
-        {
-            table.RegisterCustomer(this);
-        }
     }*/
 
 
@@ -282,8 +294,18 @@ public class Customer : MonoBehaviour
     // FUTURE RIOT / GAME OVER SYSTEM
     // ============================================
 
-
     private void OnPatienceEmpty()
+    {
+        // Only the table where this customer is seated can riot.
+        if (seatedTable != null)
+        {
+            seatedTable.NotifyCustomerPatienceEmpty(this);
+        }
+
+        // Queued customers do not cause riots.
+    }
+
+    /*private void OnPatienceEmpty()
     {
         // Queue customers have no TableRiotController parent,
         // so reaching zero while waiting will not cause a riot.
@@ -296,7 +318,7 @@ public class Customer : MonoBehaviour
         }
 
         // Future game-over or other handling can be added here.
-    }
+    }*/
 
     public void ForcePatienceToZero()
     {
@@ -316,7 +338,9 @@ public class Customer : MonoBehaviour
 
     public void OnCustomerSeated()
     {
-        if (patienceExpired)
+        // A customer who already expired must remain at zero
+        // so the table can detect and handle the riot.
+        if (patienceEmpty || patienceExpired)
             return;
 
         patience = Mathf.Clamp(
@@ -327,5 +351,18 @@ public class Customer : MonoBehaviour
 
         UpdatePatienceUI();
     }
+    /*public void OnCustomerSeated()
+    {
+        if (patienceExpired)
+            return;
+
+        patience = Mathf.Clamp(
+            patience + seatingPatienceBonus,
+            0f,
+            maxPatience
+        );
+
+        UpdatePatienceUI();
+    }*/
 
 }
