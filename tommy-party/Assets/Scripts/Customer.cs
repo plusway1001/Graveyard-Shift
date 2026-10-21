@@ -39,6 +39,8 @@ public class Customer : MonoBehaviour
     private bool patienceExpired = false;
     public bool PatienceExpired => patienceExpired;
 
+    private CustomerQueue owningQueue;
+
     [System.Serializable]
     private struct TypeSprite
     {
@@ -73,6 +75,11 @@ public class Customer : MonoBehaviour
     private void Update()
     {
         DecreasePatience();
+    }
+
+    public void SetOwningQueue(CustomerQueue queue)
+    {
+        owningQueue = queue;
     }
 
     private void DecreasePatience()
@@ -294,7 +301,7 @@ public class Customer : MonoBehaviour
     // FUTURE RIOT / GAME OVER SYSTEM
     // ============================================
 
-    private void OnPatienceEmpty()
+    /*private void OnPatienceEmpty()
     {
         // Only the table where this customer is seated can riot.
         if (seatedTable != null)
@@ -303,22 +310,23 @@ public class Customer : MonoBehaviour
         }
 
         // Queued customers do not cause riots.
-    }
+    }*/
 
-    /*private void OnPatienceEmpty()
+    private void OnPatienceEmpty()
     {
-        // Queue customers have no TableRiotController parent,
-        // so reaching zero while waiting will not cause a riot.
-        TableRiotController table =
-            GetComponentInParent<TableRiotController>();
-
-        if (table != null)
+        // A customer still waiting in the queue leaves.
+        if (owningQueue != null)
         {
-            table.NotifyCustomerPatienceEmpty(this);
+            owningQueue.RemoveExpiredCustomer(this);
+            return;
         }
 
-        // Future game-over or other handling can be added here.
-    }*/
+        // A seated customer can trigger the table riot system.
+        if (seatedTable != null)
+        {
+            seatedTable.NotifyCustomerPatienceEmpty(this);
+        }
+    }
 
     public void ForcePatienceToZero()
     {

@@ -3650,12 +3650,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528a1e0971e1e91489dad3d124417066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerQueue
-  startingQueueSize: 5
+  startingQueueSize: 3
   maxQueueSize: 6
   customerPrefab: {fileID: 1425477615060180942, guid: 9b85f2c9ee171674ba8e3527c9ab847c, type: 3}
   queueSpawnPoint: {fileID: 64154040}
   queueSpacing: 1
   randomizeCustomerTypes: 1
+  minBatchSize: 4
+  maxBatchSize: 6
+  minSpawnDelay: 20
+  maxSpawnDelay: 30
 --- !u!4 &1312663581
 Transform:
   m_ObjectHideFlags: 0

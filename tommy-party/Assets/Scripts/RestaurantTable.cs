@@ -54,7 +54,7 @@ public class RestaurantTable : MonoBehaviour
 
         // Record the customer before seating.
         seatedCustomers.Add(customer);
-
+        customer.SetOwningQueue(null);
         // SeatAt() moves the customer and applies the
         // seating bonus in your existing Customer script.
         customer.SeatAt(freeSeat);

@@ -18,12 +18,71 @@ public class CustomerQueue : MonoBehaviour
     private readonly List<Customer> customers = new List<Customer>();
 
     public IReadOnlyList<Customer> Customers => customers;
+
+    [Header("Automatic Queue Respawn")]
+    [SerializeField] private int minBatchSize = 4;
+    [SerializeField] private int maxBatchSize = 6;
+
+    [SerializeField] private float minSpawnDelay = 20f;
+    [SerializeField] private float maxSpawnDelay = 30f;
+
+    private bool isWaitingForNextBatch = false;
     public int Count => customers.Count;
     public int MaxQueueSize => maxQueueSize;
 
     private void Start()
     {
-        FillQueue(startingQueueSize);
+        //FillQueue(startingQueueSize);
+        FillQueue(Random.Range(minBatchSize, maxBatchSize + 1));
+    }
+
+    private void Update()
+    {
+        // Do not start another cooldown if one is already running.
+        if (customers.Count == 0 && !isWaitingForNextBatch)
+        {
+            StartCoroutine(SpawnNextBatch());
+        }
+    }
+
+    public void RemoveExpiredCustomer(Customer customer)
+    {
+        if (customer == null)
+            return;
+
+        if (customers.Remove(customer))
+        {
+            Debug.Log(
+                $"{customer.CustomerName} left because their patience reached zero."
+            );
+
+            RefreshQueuePositions();
+
+            Destroy(customer.gameObject);
+        }
+    }
+
+    private System.Collections.IEnumerator SpawnNextBatch()
+    {
+        isWaitingForNextBatch = true;
+
+        // Random waiting period between 20 and 30 seconds.
+        float waitTime = Random.Range(minSpawnDelay, maxSpawnDelay);
+        yield return new WaitForSeconds(waitTime);
+
+        // Only spawn if the queue is still empty.
+        if (customers.Count == 0)
+        {
+            int batchSize = Random.Range(minBatchSize, maxBatchSize + 1);
+
+            FillQueue(batchSize);
+
+            Debug.Log(
+                $"New customer batch spawned: {batchSize} customers."
+            );
+        }
+
+        isWaitingForNextBatch = false;
     }
 
     public void FillQueue(int amount)
@@ -68,6 +127,8 @@ public class CustomerQueue : MonoBehaviour
             return false;
 
         Customer newCustomer = Instantiate(customerPrefab);
+
+        newCustomer.SetOwningQueue(this);
 
         CustomerType randomType = randomizeCustomerTypes
             ? (CustomerType)Random.Range(0, System.Enum.GetValues(typeof(CustomerType)).Length)
