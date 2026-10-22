@@ -171,3 +171,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RiotProjectile
   speed: 7
   lifetime: 5
+  hitEffects: {fileID: 4659758405916457758, guid: 90c7c82e635b3d84aa21087b3afb41c5, type: 3}
