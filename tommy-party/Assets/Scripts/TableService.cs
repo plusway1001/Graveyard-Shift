@@ -26,6 +26,7 @@ public class TableService : MonoBehaviour
     private readonly List<GameObject> seated = new List<GameObject>();
     private WorldBar eatingBar;
     private RestaurantTable table;
+    public TableUIManager tableUI;
 
     private void Awake()
     {
@@ -90,6 +91,12 @@ public class TableService : MonoBehaviour
     {
         State = TableState.Eating;
 
+        tableUI.CloseTable();
+
+        // Prevent new customers from being assigned while eating.
+        if (table != null)
+            table.SetEating(true);
+
         foreach (var c in seated)
         {
             // Lets the customer's own script stop its patience timer:
@@ -122,6 +129,11 @@ public class TableService : MonoBehaviour
         seated.Clear();
 
         State = TableState.Empty;
+
+        // Allow new customers to be assigned again.
+        if (table != null)
+            table.SetEating(false);
+
         onTableCleared?.Invoke();
     }
 

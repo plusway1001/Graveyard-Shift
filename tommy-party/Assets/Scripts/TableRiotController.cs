@@ -43,6 +43,11 @@ public class TableRiotController : MonoBehaviour
     [SerializeField] private GameObject riotBarCanvas;
     [SerializeField] private Slider riotDurationSlider;
 
+    public bool IsRiotActive => riotTriggered;
+
+    private RestaurantTable table;
+    public TableUIManager tableUI;
+
     private void Awake()
     {
         if (projectileSpawnPoint == null)
@@ -87,6 +92,7 @@ public class TableRiotController : MonoBehaviour
 
             // Trigger the riot first so all customers are captured
             // before any patience callbacks can trigger it again.
+            tableUI.CloseTable();
             TriggerRiot("Customer group mismatch.");
 
             foreach (Customer seated in seatedCustomers)
@@ -200,71 +206,6 @@ public class TableRiotController : MonoBehaviour
     }
 
 
-    /*public void TriggerRiot(string reason)
-    {
-        if (riotTriggered)
-            return;
-
-        riotTriggered = true;
-
-        if (logRiotEvents)
-            Debug.LogWarning($"{name}: RIOT! {reason}");
-
-        // Spawn one particle effect for this riot.
-        if (riotEffectPrefab != null)
-        {
-            GameObject effect = Instantiate(
-                riotEffectPrefab,
-                transform.position + effectOffset,
-                Quaternion.identity
-            );
-
-            // The effect can finish independently of the riot.
-            ParticleSystem particles =
-                effect.GetComponentInChildren<ParticleSystem>();
-
-            if (particles != null)
-            {
-                float duration =
-                    particles.main.duration +
-                    particles.main.startLifetime.constantMax;
-
-                Destroy(effect, duration);
-            }
-        }
-
-        if (riotRoutine == null)
-            riotRoutine = StartCoroutine(RiotSequence());
-    }*/
-
-    /*private IEnumerator RiotSequence()
-    {
-        // Keep the customer list intact during the riot.
-        float elapsed = 0f;
-        float nextShotTime = 0f;
-
-        while (elapsed < riotDuration)
-        {
-            if (elapsed >= nextShotTime)
-            {
-                FireProjectile();
-
-                nextShotTime += Mathf.Max(
-                    0.05f,
-                    projectileInterval
-                );
-            }
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // Riot has ended: remove customers and drop ingredients.
-        EndRiot();
-
-        riotRoutine = null;
-    }*/
-
 
     private IEnumerator RiotSequence(int customerCount)
     {
@@ -299,21 +240,7 @@ public class TableRiotController : MonoBehaviour
 
             yield return null;
         }
-        /*while (elapsed < riotDuration)
-        {
-            if (elapsed >= nextShotTime)
-            {
-                FireProjectile();
-
-                nextShotTime += Mathf.Max(
-                    0.05f,
-                    projectileInterval
-                );
-            }
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }*/
+        
 
         // Riot has ended. Drop one ingredient per removed customer.
         for (int i = 0; i < customerCount; i++)
@@ -330,6 +257,8 @@ public class TableRiotController : MonoBehaviour
 
         riotTriggered = false;
         riotRoutine = null;
+
+        
 
         if (logRiotEvents)
         {

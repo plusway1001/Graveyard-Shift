@@ -41,6 +41,8 @@ public class Customer : MonoBehaviour
 
     private CustomerQueue owningQueue;
 
+    private bool hasBeenServed = false;
+
     [System.Serializable]
     private struct TypeSprite
     {
@@ -77,6 +79,22 @@ public class Customer : MonoBehaviour
         DecreasePatience();
     }
 
+    public void OnServed()
+    {
+        if (hasBeenServed)
+            return;
+
+        hasBeenServed = true;
+
+        // Hide the patience bar.
+        if (patienceSlider != null)
+        {
+            patienceSlider.gameObject.SetActive(false);
+        }
+
+        Debug.Log($"{CustomerName} has been served. Patience stopped.");
+    }
+
     public void SetOwningQueue(CustomerQueue queue)
     {
         owningQueue = queue;
@@ -84,6 +102,8 @@ public class Customer : MonoBehaviour
 
     private void DecreasePatience()
     {
+        if (hasBeenServed || patienceExpired)
+            return;
         if (patience <= 0f)
             //if (patienceEmpty)
             return;

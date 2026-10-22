@@ -1,3 +1,4 @@
+
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -35,6 +36,220 @@ public class TableUIManager : MonoBehaviour
 
     public void OpenTable(RestaurantTable table)
     {
+        if (table == null || customerQueue == null)
+            return;
+
+        if (!table.CanAcceptCustomers || !table.CanInteract)
+        {
+            Debug.Log("Cannot open assignment UI: table is unavailable.");
+            return;
+        }
+
+        TableService service = table.GetComponent<TableService>();
+
+        if (service != null && service.IsBusy)
+            return;
+
+        currentTable = table;
+
+        if (tablePanel != null)
+            tablePanel.SetActive(true);
+
+        RefreshUI();
+    }
+
+    // Connect this method to the mobile X button.
+    public void CloseTable()
+    {
+        currentTable = null;
+
+        ClearButtons();
+
+        if (tablePanel != null)
+            tablePanel.SetActive(false);
+    }
+
+    public void RefreshUI()
+    {
+        if (currentTable == null || customerQueue == null)
+            return;
+
+        ClearButtons();
+
+        if (tableTitleText != null)
+            tableTitleText.text = "Assign Customers";
+
+        if (capacityText != null)
+        {
+            capacityText.text =
+                $"Seats: {currentTable.OccupiedSeats}/{currentTable.Capacity}";
+        }
+
+        if (currentTable.IsFull)
+            return;
+
+        for (int i = 0; i < customerQueue.Count; i++)
+        {
+            Customer customer = customerQueue.GetCustomer(i);
+
+            if (customer == null)
+                continue;
+
+            Button button = Instantiate(
+                customerButtonPrefab,
+                customerButtonContainer
+            );
+
+            TMP_Text buttonText =
+                button.GetComponentInChildren<TMP_Text>();
+
+            if (buttonText != null)
+            {
+                buttonText.text =
+                    $"{i + 1}. {customer.CustomerName} [{customer.Type}]";
+            }
+
+            Customer selectedCustomer = customer;
+
+            button.onClick.AddListener(() =>
+            {
+                AssignCustomer(selectedCustomer);
+            });
+        }
+    }
+
+    private void AssignCustomer(Customer customer)
+    {
+        if (currentTable == null || customer == null)
+            return;
+
+        // Prevent assignment if the table became unavailable
+        // while the UI was open.
+        if (!currentTable.CanAcceptCustomers ||
+            !currentTable.CanInteract)
+        {
+            CloseTable();
+            return;
+        }
+
+        if (!customerQueue.Customers.Contains(customer))
+        {
+            RefreshUI();
+            return;
+        }
+
+        bool seated = currentTable.TrySeatCustomer(customer);
+
+        if (!seated)
+        {
+            RefreshUI();
+            return;
+        }
+
+        customerQueue.RemoveCustomer(customer);
+
+        if (currentTable == null)
+            return;
+
+        if (currentTable.IsFull || customerQueue.Count == 0)
+        {
+            CloseTable();
+        }
+        else
+        {
+            RefreshUI();
+        }
+    }
+
+    private void ClearButtons()
+    {
+        if (customerButtonContainer == null)
+            return;
+
+        for (int i = customerButtonContainer.childCount - 1; i >= 0; i--)
+        {
+            GameObject button =
+                customerButtonContainer.GetChild(i).gameObject;
+
+            button.SetActive(false);
+            Destroy(button);
+        }
+    }
+
+    private void Update()
+    {
+        if (tablePanel == null || !tablePanel.activeSelf)
+            return;
+
+        // PC controls: press Escape to close.
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseTable();
+            return;
+        }
+
+        // Automatically close if the selected table is destroyed,
+        // starts rioting, begins eating, or becomes unavailable.
+        if (currentTable == null ||
+            !currentTable.CanAcceptCustomers ||
+            !currentTable.CanInteract)
+        {
+            CloseTable();
+            return;
+        }
+
+        TableService service = currentTable.GetComponent<TableService>();
+
+        if (service != null && service.IsBusy)
+        {
+            CloseTable();
+        }
+    }
+}
+
+
+/*using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class TableUIManager : MonoBehaviour
+{
+    public static TableUIManager Instance { get; private set; }
+
+    [Header("UI")]
+    [SerializeField] private GameObject tablePanel;
+    [SerializeField] private Transform customerButtonContainer;
+    [SerializeField] private Button customerButtonPrefab;
+    [SerializeField] private TMP_Text tableTitleText;
+    [SerializeField] private TMP_Text capacityText;
+
+    [Header("References")]
+    [SerializeField] private CustomerQueue customerQueue;
+
+    private RestaurantTable currentTable;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        if (tablePanel != null)
+            tablePanel.SetActive(false);
+    }
+
+    public void OpenTable(RestaurantTable table)
+    {
+        if (table == null || !table.CanAcceptCustomers)
+        {
+            Debug.Log("Cannot open assignment UI: table is eating or rioting.");
+            return;
+        }
         if (table == null || customerQueue == null)
             return;
 
@@ -135,29 +350,7 @@ public class TableUIManager : MonoBehaviour
     }
 
 
-    /*private void AssignCustomer(Customer customer)
-    {
-        if (currentTable == null || customer == null)
-            return;
-
-        bool seated = currentTable.TrySeatCustomer(customer);
-
-        if (!seated)
-            return;
-
-        // Customer disappears from queue because they teleported to the table.
-        customerQueue.RemoveCustomer(customer);
-
-        // Rebuild buttons so the queue indices update immediately.
-        if (currentTable.IsFull || customerQueue.Count == 0)
-        {
-            CloseTable();
-        }
-        else
-        {
-            RefreshUI();
-        }
-    }*/
+    
 
 
     private void ClearButtons()
@@ -178,16 +371,7 @@ public class TableUIManager : MonoBehaviour
     }
 
 
-    /*private void ClearButtons()
-    {
-        if (customerButtonContainer == null)
-            return;
-
-        for (int i = customerButtonContainer.childCount - 1; i >= 0; i--)
-        {
-            Destroy(customerButtonContainer.GetChild(i).gameObject);
-        }
-    }*/
+    
 
     private void Update()
     {
@@ -199,4 +383,4 @@ public class TableUIManager : MonoBehaviour
             CloseTable();
         }
     }
-}
+}*/

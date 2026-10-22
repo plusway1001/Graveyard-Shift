@@ -36,6 +36,13 @@ public class RestaurantTable : MonoBehaviour
         !IsFull &&
         (tableService == null || !tableService.IsBusy);
 
+    private bool isEating;
+
+    public bool CanAcceptCustomers =>
+        !isEating &&
+        (riotController == null || !riotController.IsRiotActive) &&
+        OccupiedSeats < Capacity;
+
     private void Awake()
     {
         riotController = GetComponent<TableRiotController>();
@@ -48,6 +55,11 @@ public class RestaurantTable : MonoBehaviour
                 ClearSeatedCustomers
             );
         }
+    }
+
+    public void SetEating(bool eating)
+    {
+        isEating = eating;
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -74,12 +86,23 @@ public class RestaurantTable : MonoBehaviour
         // Open the seating UI when the table is available.
         if (CanInteract && TableUIManager.Instance != null)
         {
+            if (!CanAcceptCustomers)
+            {
+                Debug.Log("This table cannot accept customers right now.");
+                return;
+            }
             TableUIManager.Instance.OpenTable(this);
         }
     }
 
     public bool TrySeatCustomer(Customer customer)
     {
+        if (!CanAcceptCustomers)
+        {
+            Debug.Log("This table is busy eating or experiencing a riot.");
+            return false;
+        }
+
         if (customer == null || IsFull)
             return false;
 
