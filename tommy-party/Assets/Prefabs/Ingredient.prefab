@@ -144,3 +144,4 @@ MonoBehaviour:
   amount: 1
   pickupDelay: 0.6
   bobHeight: 0.08
+  clip: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}

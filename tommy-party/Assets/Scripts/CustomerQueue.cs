@@ -30,6 +30,8 @@ public class CustomerQueue : MonoBehaviour
     public int Count => customers.Count;
     public int MaxQueueSize => maxQueueSize;
 
+    public AudioClip clip, clip2;
+
     private void Start()
     {
         //FillQueue(startingQueueSize);
@@ -59,6 +61,15 @@ public class CustomerQueue : MonoBehaviour
             RefreshQueuePositions();
 
             Destroy(customer.gameObject);
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip2);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
         }
     }
 
@@ -93,6 +104,15 @@ public class CustomerQueue : MonoBehaviour
             AddRandomCustomer();
 
         RefreshQueuePositions();
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
     }
 
     public Customer GetCustomer(int index)

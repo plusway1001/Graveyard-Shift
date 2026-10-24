@@ -38,6 +38,8 @@ public class NightCycleManager : MonoBehaviour
 
     public event Action<NightPhase> OnNightPhaseChanged;
 
+    public AudioClip clip, clip2;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -53,6 +55,14 @@ public class NightCycleManager : MonoBehaviour
     {
         UpdateNightPhase(true);
         UpdateUI();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip2);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
     }
 
     private void Update()
@@ -87,6 +97,14 @@ public class NightCycleManager : MonoBehaviour
         {
             currentHour = startHour;
             nightCount++;
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(clip);
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager instance is missing from the scene!");
+            }
         }
     }
 

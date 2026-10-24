@@ -20,6 +20,8 @@ public class TableUIManager : MonoBehaviour
 
     private RestaurantTable currentTable;
 
+    public AudioClip clip, clip2;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -55,6 +57,15 @@ public class TableUIManager : MonoBehaviour
         if (tablePanel != null)
             tablePanel.SetActive(true);
 
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
+
         RefreshUI();
     }
 
@@ -67,6 +78,15 @@ public class TableUIManager : MonoBehaviour
 
         if (tablePanel != null)
             tablePanel.SetActive(false);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
     }
 
     public void RefreshUI()
@@ -142,6 +162,14 @@ public class TableUIManager : MonoBehaviour
 
         if (!seated)
         {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(clip2);
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager instance is missing from the scene!");
+            }
             RefreshUI();
             return;
         }

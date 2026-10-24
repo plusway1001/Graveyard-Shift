@@ -21,6 +21,8 @@ public class PlayerInventory : MonoBehaviour
     // UI listens to this
     public event Action OnChanged;
 
+    public AudioClip clip;
+
     private void Awake()
     {
         Instance = this;
@@ -41,7 +43,18 @@ public class PlayerInventory : MonoBehaviour
     // Used by the counter when it starts cooking a dish
     public bool TryUseIngredient()
     {
-        if (Ingredients <= 0) return false;
+        if (Ingredients <= 0)
+        {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(clip);
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager instance is missing from the scene!");
+            }
+            return false;
+        }
         Ingredients--;
         OnChanged?.Invoke();
         return true;

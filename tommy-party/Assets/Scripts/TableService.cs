@@ -28,6 +28,8 @@ public class TableService : MonoBehaviour
     private RestaurantTable table;
     public TableUIManager tableUI;
 
+    public AudioClip clip, clip2;
+
     private void Awake()
     {
         table = GetComponent<RestaurantTable>();
@@ -83,6 +85,14 @@ public class TableService : MonoBehaviour
     {
         if (!CanServe()) return false;
         PlayerInventory.Instance.TryTakeDishes(seated.Count);
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
         StartCoroutine(EatRoutine());
         return true;
     }
@@ -129,6 +139,15 @@ public class TableService : MonoBehaviour
         seated.Clear();
 
         State = TableState.Empty;
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip2);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
 
         // Allow new customers to be assigned again.
         if (table != null)

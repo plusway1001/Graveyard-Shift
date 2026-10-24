@@ -1327,6 +1327,8 @@ MonoBehaviour:
   phaseText: {fileID: 2077462202}
   nightCounterText: {fileID: 279140361}
   nightCount: 1
+  clip: {fileID: 8300000, guid: b3c8894f84e022a4ea00cc70fa420ace, type: 3}
+  clip2: {fileID: 8300000, guid: b3c8894f84e022a4ea00cc70fa420ace, type: 3}
 --- !u!4 &391313810
 Transform:
   m_ObjectHideFlags: 0
@@ -1432,6 +1434,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 691631536}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1984,6 +1998,7 @@ MonoBehaviour:
   - {fileID: 1731711586}
   - {fileID: 442274162}
   interactKey: 101
+  clip: {fileID: 8300000, guid: 2f01e480bef275c469b548aeea53d9c9, type: 3}
 --- !u!50 &514780981
 Rigidbody2D:
   serializedVersion: 5
@@ -2157,6 +2172,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   tableUI: {fileID: 818324273}
+  clip: {fileID: 8300000, guid: 16a2735ec6bfcec4c9a09c709eab2475, type: 3}
+  clip2: {fileID: 8300000, guid: 7453d2e8582d91e4e8d5575b0c5c9f85, type: 3}
 --- !u!114 &514780986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2183,6 +2200,9 @@ MonoBehaviour:
   riotBarCanvas: {fileID: 1586726902}
   riotDurationSlider: {fileID: 651979695}
   tableUI: {fileID: 818324273}
+  clip: {fileID: 8300000, guid: 91a405bbbdc7642468641a29a48cec5e, type: 3}
+  clip2: {fileID: 8300000, guid: 16a2735ec6bfcec4c9a09c709eab2475, type: 3}
+  clip3: {fileID: 8300000, guid: 7453d2e8582d91e4e8d5575b0c5c9f85, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2680,6 +2700,7 @@ MonoBehaviour:
   - {fileID: 1704199119}
   - {fileID: 151950931}
   interactKey: 101
+  clip: {fileID: 8300000, guid: 2f01e480bef275c469b548aeea53d9c9, type: 3}
 --- !u!114 &618574997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2700,6 +2721,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   tableUI: {fileID: 818324273}
+  clip: {fileID: 8300000, guid: 16a2735ec6bfcec4c9a09c709eab2475, type: 3}
+  clip2: {fileID: 8300000, guid: 7453d2e8582d91e4e8d5575b0c5c9f85, type: 3}
 --- !u!114 &618574998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2726,6 +2749,9 @@ MonoBehaviour:
   riotBarCanvas: {fileID: 1438657320}
   riotDurationSlider: {fileID: 1004086471}
   tableUI: {fileID: 818324273}
+  clip: {fileID: 8300000, guid: 91a405bbbdc7642468641a29a48cec5e, type: 3}
+  clip2: {fileID: 8300000, guid: 16a2735ec6bfcec4c9a09c709eab2475, type: 3}
+  clip3: {fileID: 8300000, guid: 7453d2e8582d91e4e8d5575b0c5c9f85, type: 3}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -3273,6 +3299,8 @@ MonoBehaviour:
   tableTitleText: {fileID: 1639686527}
   capacityText: {fileID: 627881470}
   customerQueue: {fileID: 1312663580}
+  clip: {fileID: 8300000, guid: 0ac3f7dd75d04854c98f0ecb01a53de9, type: 3}
+  clip2: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
 --- !u!1 &829540231
 GameObject:
   m_ObjectHideFlags: 0
@@ -3722,6 +3750,7 @@ MonoBehaviour:
   startingIngredients: 10
   maxIngredients: 20
   maxDishesOnHand: 4
+  clip: {fileID: 0}
 --- !u!114 &847561276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5103,6 +5132,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 691631536}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1189573576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5514,6 +5555,8 @@ MonoBehaviour:
   maxBatchSize: 6
   minSpawnDelay: 10
   maxSpawnDelay: 15
+  clip: {fileID: 8300000, guid: 7453d2e8582d91e4e8d5575b0c5c9f85, type: 3}
+  clip2: {fileID: 8300000, guid: 91a405bbbdc7642468641a29a48cec5e, type: 3}
 --- !u!4 &1312663581
 Transform:
   m_ObjectHideFlags: 0
@@ -5782,6 +5825,8 @@ MonoBehaviour:
   dishSpacing: 0.4
   dishScale: 0.6
   cookBarOffset: {x: 0, y: 1.1}
+  clip: {fileID: 8300000, guid: 16a2735ec6bfcec4c9a09c709eab2475, type: 3}
+  clip2: {fileID: 8300000, guid: b3c8894f84e022a4ea00cc70fa420ace, type: 3}
 --- !u!212 &1370355271
 SpriteRenderer:
   serializedVersion: 2
@@ -5948,6 +5993,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 691631536}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9275,6 +9332,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ingredient
       objectReference: {fileID: 0}
+    - target: {fileID: 7746493132194173898, guid: 8328d62a180e5084888a4f881357d201, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9436,6 +9497,38 @@ PrefabInstance:
     - target: {fileID: 1141767449934930242, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151176356291662029, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151176356291662029, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151176356291662029, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 691631536}
+    - target: {fileID: 2151176356291662029, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151176356291662029, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaySound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151176356291662029, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151176356291662029, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
+    - target: {fileID: 2151176356291662029, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.AudioClip, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8400975653109822251, guid: 900d7b3c57338e349a1a65db7771fd0a, type: 3}
       propertyPath: m_Name

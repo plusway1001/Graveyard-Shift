@@ -48,6 +48,8 @@ public class TableRiotController : MonoBehaviour
     private RestaurantTable table;
     public TableUIManager tableUI;
 
+    public AudioClip clip, clip2, clip3;
+
     private void Awake()
     {
         if (projectileSpawnPoint == null)
@@ -142,6 +144,15 @@ public class TableRiotController : MonoBehaviour
 
         // Mark the riot as active immediately.
         riotTriggered = true;
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
 
         // Show this table's riot duration bar.
         if (riotBarCanvas != null)
@@ -287,6 +298,15 @@ public class TableRiotController : MonoBehaviour
         );
 
         projectile.Launch(player);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip2);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
     }
 
     private void EndRiot()
@@ -317,6 +337,15 @@ public class TableRiotController : MonoBehaviour
         }
 
         riotTriggered = false;
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip3);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
 
         if (logRiotEvents)
             Debug.Log(

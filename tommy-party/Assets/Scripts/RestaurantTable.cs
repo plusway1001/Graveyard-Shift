@@ -43,6 +43,8 @@ public class RestaurantTable : MonoBehaviour
         (riotController == null || !riotController.IsRiotActive) &&
         OccupiedSeats < Capacity;
 
+    public AudioClip clip;
+
     private void Awake()
     {
         riotController = GetComponent<TableRiotController>();
@@ -91,6 +93,7 @@ public class RestaurantTable : MonoBehaviour
                 Debug.Log("This table cannot accept customers right now.");
                 return;
             }
+
             TableUIManager.Instance.OpenTable(this);
         }
     }
@@ -127,6 +130,15 @@ public class RestaurantTable : MonoBehaviour
         // Move the customer to the selected seat and apply
         // the seating bonus implemented in Customer.SeatAt().
         customer.SeatAt(freeSeat);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
 
         // Register the customer with the riot system.
         if (riotController != null)

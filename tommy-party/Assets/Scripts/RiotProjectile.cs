@@ -17,6 +17,7 @@ public class RiotProjectile : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool hasHit;
+    public AudioClip clip;
 
     private void Awake()
     {
@@ -88,6 +89,14 @@ public class RiotProjectile : MonoBehaviour
 
             SpawnHitEffect(other.transform.position);
             Destroy(gameObject);
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(clip);
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager instance is missing from the scene!");
+            }
         }
     }
 

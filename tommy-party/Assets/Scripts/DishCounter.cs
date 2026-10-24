@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 // Put this script on the dish counter.
 // PC: Press E nearby to collect ready dishes.
@@ -34,6 +35,8 @@ public class DishCounter : MonoBehaviour
     private readonly List<SpriteRenderer> dishVisuals =
         new List<SpriteRenderer>();
 
+    public AudioClip clip, clip2;
+
     private void Start()
     {
         GameObject p = GameObject.FindGameObjectWithTag("Player");
@@ -60,6 +63,8 @@ public class DishCounter : MonoBehaviour
         {
             Interact();
         }
+
+        
     }
 
     private void HandleCooking()
@@ -94,8 +99,71 @@ public class DishCounter : MonoBehaviour
 
             ReadyDishes++;
             RefreshDishVisuals();
+
+            // Play sound when the counter reaches maximum dishes.
+            if (ReadyDishes >= maxReadyDishes)
+            {
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlaySFX(clip2);
+                }
+                else
+                {
+                    Debug.LogWarning("AudioManager instance is missing from the scene!");
+                }
+            }
         }
     }
+
+    /*private void HandleCooking()
+    {
+        if (!IsCooking)
+        {
+            // Start cooking when an ingredient is available
+            // and there is room for another dish.
+            if (ReadyDishes < maxReadyDishes &&
+                PlayerInventory.Instance != null &&
+                PlayerInventory.Instance.TryUseIngredient())
+            {
+                IsCooking = true;
+                cookTimer = 0f;
+                cookBar.Show();
+            }
+            
+
+            return;
+            
+        }
+
+        cookTimer += Time.deltaTime;
+
+        if (cookBar != null)
+            cookBar.SetProgress(cookTimer / cookCooldown);
+
+        if (cookTimer >= cookCooldown)
+        {
+            IsCooking = false;
+
+            if (cookBar != null)
+                cookBar.Hide();
+
+            ReadyDishes++;
+            RefreshDishVisuals();
+
+            // Play sound when the counter reaches maximum dishes.
+            if (ReadyDishes >= maxReadyDishes)
+            {
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlaySFX(clip2);
+                }
+                else
+                {
+                    Debug.LogWarning("AudioManager instance is missing from the scene!");
+                }
+            }
+        }
+    }*/
 
     // Called by PC keyboard or the mobile Interact button.
     public void Interact()
@@ -110,6 +178,14 @@ public class DishCounter : MonoBehaviour
         if (PlayerInventory.Instance == null)
             return;
 
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
         int taken = PlayerInventory.Instance.AddDishes(ReadyDishes);
 
         if (taken > 0)
