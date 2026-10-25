@@ -3750,7 +3750,8 @@ MonoBehaviour:
   startingIngredients: 10
   maxIngredients: 20
   maxDishesOnHand: 4
-  clip: {fileID: 0}
+  clip2: {fileID: 8300000, guid: 0ac3f7dd75d04854c98f0ecb01a53de9, type: 3}
+  clip: {fileID: 8300000, guid: 16a2735ec6bfcec4c9a09c709eab2475, type: 3}
 --- !u!114 &847561276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5825,7 +5826,6 @@ MonoBehaviour:
   dishSpacing: 0.4
   dishScale: 0.6
   cookBarOffset: {x: 0, y: 1.1}
-  clip: {fileID: 8300000, guid: 16a2735ec6bfcec4c9a09c709eab2475, type: 3}
   clip2: {fileID: 8300000, guid: b3c8894f84e022a4ea00cc70fa420ace, type: 3}
 --- !u!212 &1370355271
 SpriteRenderer:
@@ -5874,7 +5874,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6147540774237237399, guid: dd4c402868e26294184deb6e9e69e8a9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

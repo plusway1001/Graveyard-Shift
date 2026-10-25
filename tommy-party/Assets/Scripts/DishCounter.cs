@@ -35,7 +35,7 @@ public class DishCounter : MonoBehaviour
     private readonly List<SpriteRenderer> dishVisuals =
         new List<SpriteRenderer>();
 
-    public AudioClip clip, clip2;
+    public AudioClip clip2;
 
     private void Start()
     {
@@ -178,14 +178,7 @@ public class DishCounter : MonoBehaviour
         if (PlayerInventory.Instance == null)
             return;
 
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX(clip);
-        }
-        else
-        {
-            Debug.LogWarning("AudioManager instance is missing from the scene!");
-        }
+        
         int taken = PlayerInventory.Instance.AddDishes(ReadyDishes);
 
         if (taken > 0)

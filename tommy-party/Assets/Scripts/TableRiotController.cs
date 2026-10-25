@@ -259,6 +259,15 @@ public class TableRiotController : MonoBehaviour
             DropIngredient();
         }
 
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip3);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
+
         // Hide the bar when the riot is over.
         if (riotBarCanvas != null)
             riotBarCanvas.SetActive(false);
