@@ -7,6 +7,8 @@ public class PauseMenu : MonoBehaviour
 
     private bool isPaused = false;
 
+    public AudioClip clip;
+
     void Start()
     {
         Time.timeScale = 1f;
@@ -20,6 +22,14 @@ public class PauseMenu : MonoBehaviour
         // Press Escape to pause or resume
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(clip);
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager instance is missing from the scene!");
+            }
             if (isPaused)
                 ResumeGame();
             else

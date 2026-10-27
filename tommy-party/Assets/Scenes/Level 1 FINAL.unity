@@ -3042,6 +3042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pausePanel: {fileID: 1495010845}
+  clip: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
 --- !u!1 &733530434
 GameObject:
   m_ObjectHideFlags: 0
@@ -3301,6 +3302,7 @@ MonoBehaviour:
   customerQueue: {fileID: 1312663580}
   clip: {fileID: 8300000, guid: 0ac3f7dd75d04854c98f0ecb01a53de9, type: 3}
   clip2: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
+  interactKey: 113
 --- !u!1 &829540231
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,8 @@ public class TableUIManager : MonoBehaviour
 
     public AudioClip clip, clip2;
 
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -209,8 +211,8 @@ public class TableUIManager : MonoBehaviour
         if (tablePanel == null || !tablePanel.activeSelf)
             return;
 
-        // PC controls: press Escape to close.
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // PC controls: press interactkey to close.
+        if (Input.GetKeyDown(interactKey))
         {
             CloseTable();
             return;
