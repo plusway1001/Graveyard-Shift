@@ -172,4 +172,4 @@ MonoBehaviour:
   speed: 7
   lifetime: 5
   hitEffects: {fileID: 4659758405916457758, guid: 90c7c82e635b3d84aa21087b3afb41c5, type: 3}
-  clip: {fileID: 8300000, guid: 91a405bbbdc7642468641a29a48cec5e, type: 3}
+  clip: {fileID: 8300000, guid: 4ea41bb259ccefd4787fd7f4cf9d2a5c, type: 3}

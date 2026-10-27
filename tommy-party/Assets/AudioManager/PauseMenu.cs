@@ -5,13 +5,16 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pausePanel;
 
-    private bool isPaused = false;
+    public static bool isPaused = false;
 
     public AudioClip clip;
+
+    public float SetLowVol = 0.3f;
 
     void Start()
     {
         Time.timeScale = 1f;
+        AudioManager.Instance.SetVolume(1f);
 
         if (pausePanel != null)
             pausePanel.SetActive(false);
@@ -41,6 +44,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0f;
+        AudioManager.Instance.SetVolume(SetLowVol);
 
         if (pausePanel != null)
             pausePanel.SetActive(true);
@@ -50,6 +54,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
+        AudioManager.Instance.SetVolume(1f);
 
         if (pausePanel != null)
             pausePanel.SetActive(false);

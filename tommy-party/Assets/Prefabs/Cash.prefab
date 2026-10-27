@@ -142,4 +142,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CashPickup
   value: 1
-  clip: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
+  clip: {fileID: 8300000, guid: 2109228cf0e17c546919d25929d68e8b, type: 3}

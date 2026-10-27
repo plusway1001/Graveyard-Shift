@@ -24,6 +24,10 @@ public class TableUIManager : MonoBehaviour
 
     [SerializeField] private KeyCode interactKey = KeyCode.E;
 
+    public float SetVolumeLow = 0.3f;
+
+    private bool OpenTableUI = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -68,6 +72,8 @@ public class TableUIManager : MonoBehaviour
             Debug.LogWarning("AudioManager instance is missing from the scene!");
         }
 
+        OpenTableUI = true;
+
         RefreshUI();
     }
 
@@ -89,6 +95,8 @@ public class TableUIManager : MonoBehaviour
         {
             Debug.LogWarning("AudioManager instance is missing from the scene!");
         }
+
+        OpenTableUI = false;
     }
 
     public void RefreshUI()
@@ -208,6 +216,18 @@ public class TableUIManager : MonoBehaviour
 
     private void Update()
     {
+        if (OpenTableUI)
+        {
+            AudioManager.Instance.SetVolume(SetVolumeLow);
+        }
+        else
+        {
+            if (!PauseMenu.isPaused)
+            {
+                AudioManager.Instance.SetVolume(1f);
+            }
+        }
+
         if (tablePanel == null || !tablePanel.activeSelf)
             return;
 

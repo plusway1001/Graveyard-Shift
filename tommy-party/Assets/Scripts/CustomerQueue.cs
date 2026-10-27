@@ -32,6 +32,8 @@ public class CustomerQueue : MonoBehaviour
 
     public AudioClip clip, clip2;
 
+    public TableUIManager tableUI;
+
     private void Start()
     {
         //FillQueue(startingQueueSize);
@@ -62,6 +64,8 @@ public class CustomerQueue : MonoBehaviour
 
             Destroy(customer.gameObject);
         }
+
+        tableUI.CloseTable();
 
         if (AudioManager.Instance != null)
         {
