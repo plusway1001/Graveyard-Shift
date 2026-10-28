@@ -94,7 +94,7 @@ public class TableRiotController : MonoBehaviour
 
             // Trigger the riot first so all customers are captured
             // before any patience callbacks can trigger it again.
-            tableUI.CloseTable();
+            tableUI.CloseTableSpecial();
             TriggerRiot("Customer group mismatch.");
 
             foreach (Customer seated in seatedCustomers)

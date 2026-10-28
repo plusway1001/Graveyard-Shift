@@ -99,6 +99,18 @@ public class TableUIManager : MonoBehaviour
         OpenTableUI = false;
     }
 
+    public void CloseTableSpecial()
+    {
+        currentTable = null;
+
+        ClearButtons();
+
+        if (tablePanel != null)
+            tablePanel.SetActive(false);
+
+        OpenTableUI = false;
+    }
+
     public void RefreshUI()
     {
         if (currentTable == null || customerQueue == null)

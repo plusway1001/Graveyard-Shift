@@ -65,7 +65,7 @@ public class CustomerQueue : MonoBehaviour
             Destroy(customer.gameObject);
         }
 
-        tableUI.CloseTable();
+        tableUI.CloseTableSpecial();
 
         if (AudioManager.Instance != null)
         {
