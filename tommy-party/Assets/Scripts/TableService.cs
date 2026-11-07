@@ -13,6 +13,8 @@ public class TableService : MonoBehaviour
 
     [SerializeField] private float eatDuration = 3f;
     [SerializeField] private CashPickup cashPrefab;
+    [SerializeField] private LifePickup lifePrefab;
+    [SerializeField] private float lifeSpread = 0.5f;
     [SerializeField] private Vector2 eatingBarOffset = new Vector2(0f, 1.6f);
     [SerializeField] private float cashSpread = 0.5f;
 
@@ -128,10 +130,17 @@ public class TableService : MonoBehaviour
         // 1 cash per customer, left on the table
         for (int i = 0; i < seated.Count; i++)
         {
-            if (cashPrefab == null) break;
             Vector2 offset = new Vector2(
                 (i - (seated.Count - 1) / 2f) * cashSpread, Random.Range(-0.15f, 0.15f));
-            Instantiate(cashPrefab, (Vector2)transform.position + offset, Quaternion.identity);
+            if (cashPrefab != null)
+                Instantiate(cashPrefab, (Vector2)transform.position + offset, Quaternion.identity);
+
+            // Each customer who finishes eating also leaves one life pickup.
+            if (lifePrefab != null)
+            {
+                Vector2 lifeOffset = offset + new Vector2(Random.Range(-lifeSpread, lifeSpread), 0.25f);
+                Instantiate(lifePrefab, (Vector2)transform.position + lifeOffset, Quaternion.identity);
+            }
         }
 
         foreach (var c in seated)

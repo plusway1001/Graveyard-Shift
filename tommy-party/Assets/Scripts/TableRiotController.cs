@@ -1,66 +1,58 @@
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
+// Attach to each table. A riot becomes a temporary follower that pursues
+// the player, fires life-damaging projectiles, and drops collectible ingredients.
 public class TableRiotController : MonoBehaviour
 {
     [Header("Riot Effect")]
     [SerializeField] private GameObject riotEffectPrefab;
     [SerializeField] private Vector3 effectOffset;
+    [SerializeField] private GameObject riotFollowerPrefab;
+    [SerializeField] private Vector3 followerOffset = new Vector3(0f, 1f, 0f);
+    [SerializeField, Min(0.1f)] private float followSpeed = 2.5f;
 
     [Header("Riot Duration")]
-    [SerializeField, Min(0.1f)]
-    private float riotDuration = 5f;
+    [SerializeField, Min(0.1f)] private float riotDuration = 7f;
+    [SerializeField] private GameObject riotBarCanvas;
+    [SerializeField] private Slider riotDurationSlider;
+    [SerializeField] private Vector3 timerOffset = new Vector3(0f, 1.5f, 0f);
 
     [Header("Projectile Attack")]
     [SerializeField] private RiotProjectile projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private Transform player;
-    [SerializeField, Min(0.05f)]
-    private float projectileInterval = 0.75f;
+    [SerializeField, Min(0.05f)] private float projectileInterval = 0.75f;
 
-    [Header("Ingredient Drops")]
+    [Header("Ingredient Drops During Riot")]
     [SerializeField] private GameObject ingredientPickupPrefab;
-    [SerializeField] private Transform ingredientDropPoint;
-    [SerializeField] private float dropRadius = 0.5f;
+    [SerializeField, Min(0.1f)] private float minDropInterval = 1.5f;
+    [SerializeField, Min(0.1f)] private float maxDropInterval = 3f;
+    [SerializeField] private float dropRadius = 0.7f;
 
     [Header("Debug")]
     [SerializeField] private bool logRiotEvents = true;
 
-    private readonly List<Customer> seatedCustomers =
-        new List<Customer>();
-
+    private readonly List<Customer> seatedCustomers = new List<Customer>();
+    private readonly List<GameObject> riotIngredientDrops = new List<GameObject>();
     private bool riotTriggered;
     private Coroutine riotRoutine;
+    private Transform follower;
+    private RestaurantTable table;
 
     public bool IsRioting => riotTriggered;
-
-    public IReadOnlyList<Customer> SeatedCustomers =>
-        seatedCustomers;
-
-    [Header("Riot Duration UI")]
-    [SerializeField] private GameObject riotBarCanvas;
-    [SerializeField] private Slider riotDurationSlider;
-
     public bool IsRiotActive => riotTriggered;
-
-    private RestaurantTable table;
+    public IReadOnlyList<Customer> SeatedCustomers => seatedCustomers;
     public TableUIManager tableUI;
-
     public AudioClip clip, clip2, clip3;
 
     private void Awake()
     {
-        if (projectileSpawnPoint == null)
-            projectileSpawnPoint = transform;
-
-        if (ingredientDropPoint == null)
-            ingredientDropPoint = transform;
-
-        if (riotBarCanvas != null)
-            riotBarCanvas.SetActive(false);
-
+        table = GetComponent<RestaurantTable>();
+        if (projectileSpawnPoint == null) projectileSpawnPoint = transform;
+        if (riotBarCanvas != null) riotBarCanvas.SetActive(false);
         if (riotDurationSlider != null)
         {
             riotDurationSlider.minValue = 0f;
@@ -69,509 +61,157 @@ public class TableRiotController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (player == null)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject != null) player = playerObject.transform;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (riotTriggered && follower != null && player != null && riotBarCanvas != null)
+            riotBarCanvas.transform.position = follower.position + timerOffset;
+    }
+
     public void RegisterCustomer(Customer customer)
     {
-        if (customer == null || riotTriggered)
-            return;
-
-        if (!seatedCustomers.Contains(customer))
-            seatedCustomers.Add(customer);
-
-        // A seated customer at zero patience triggers a riot.
-        if (customer.Patience <= 0f)
-        {
-            TriggerRiot("A seated customer has zero patience.");
-            return;
-        }
-
-        // All customers at this table must share the same type.
+        if (customer == null || riotTriggered) return;
+        if (!seatedCustomers.Contains(customer)) seatedCustomers.Add(customer);
+        if (customer.Patience <= 0f) { TriggerRiot("A seated customer has zero patience."); return; }
         if (HasMixedCustomerTypes())
         {
-            if (logRiotEvents)
-                Debug.LogWarning(
-                    $"{name}: Customer types do not match!"
-                );
-
-            // Trigger the riot first so all customers are captured
-            // before any patience callbacks can trigger it again.
-            tableUI.CloseTableSpecial();
+            if (tableUI != null) tableUI.CloseTableSpecial();
             TriggerRiot("Customer group mismatch.");
-
             foreach (Customer seated in seatedCustomers)
-            {
-                if (seated != null)
-                    seated.ForcePatienceToZero();
-            }
+                if (seated != null) seated.ForcePatienceToZero();
         }
     }
 
     public void NotifyCustomerPatienceEmpty(Customer customer)
     {
-        if (customer == null || riotTriggered)
-            return;
-
-        if (!seatedCustomers.Contains(customer))
-            return;
-
-        TriggerRiot(
-            $"{customer.CustomerName} reached zero patience."
-        );
+        if (customer != null && !riotTriggered && seatedCustomers.Contains(customer))
+            TriggerRiot(customer.CustomerName + " reached zero patience.");
     }
 
     private bool HasMixedCustomerTypes()
     {
-        CustomerType? firstType = null;
-
+        CustomerType? first = null;
         foreach (Customer customer in seatedCustomers)
         {
-            if (customer == null)
-                continue;
-
-            if (firstType == null)
-                firstType = customer.Type;
-            else if (customer.Type != firstType.Value)
-                return true;
+            if (customer == null) continue;
+            if (first == null) first = customer.Type;
+            else if (customer.Type != first.Value) return true;
         }
-
         return false;
     }
 
-
     public void TriggerRiot(string reason)
     {
-        if (riotTriggered)
-            return;
-
-        // Mark the riot as active immediately.
+        if (riotTriggered) return;
         riotTriggered = true;
+        if (AudioManager.Instance != null && clip != null) AudioManager.Instance.PlaySFX(clip);
+        if (logRiotEvents) Debug.LogWarning(name + ": RIOT! " + reason);
 
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX(clip);
-        }
-        else
-        {
-            Debug.LogWarning("AudioManager instance is missing from the scene!");
-        }
-
-        // Show this table's riot duration bar.
-        if (riotBarCanvas != null)
-            riotBarCanvas.SetActive(true);
-
-        if (riotDurationSlider != null)
-            riotDurationSlider.value = 1f;
-
-        if (logRiotEvents)
-            Debug.LogWarning($"{name}: RIOT! {reason}");
-
-        // Spawn one riot particle effect.
         if (riotEffectPrefab != null)
         {
-            GameObject effect = Instantiate(
-                riotEffectPrefab,
-                transform.position + effectOffset,
-                Quaternion.identity
-            );
-
-            ParticleSystem particles =
-                effect.GetComponentInChildren<ParticleSystem>();
-
-            if (particles != null)
-            {
-                float duration =
-                    particles.main.duration +
-                    particles.main.startLifetime.constantMax;
-
-                Destroy(effect, duration);
-            }
+            GameObject effect = Instantiate(riotEffectPrefab, transform.position + effectOffset, Quaternion.identity);
+            ParticleSystem ps = effect.GetComponentInChildren<ParticleSystem>();
+            if (ps != null) Destroy(effect, ps.main.duration + ps.main.startLifetime.constantMax);
         }
 
-        // IMPORTANT:
-        // Count and remove all customers immediately,
-        // but keep the count for ingredient drops later.
-        int customerCount = seatedCustomers.Count;
+        Vector3 startPosition = transform.position + followerOffset;
+        GameObject followerObject = riotFollowerPrefab != null
+            ? Instantiate(riotFollowerPrefab, startPosition, Quaternion.identity)
+            : new GameObject(name + " Riot Follower");
+        if (riotFollowerPrefab == null) followerObject.transform.position = startPosition;
+        follower = followerObject.transform;
 
-        Customer[] customersToRemove =
-            seatedCustomers.ToArray();
+        if (riotBarCanvas != null) riotBarCanvas.SetActive(true);
+        if (riotDurationSlider != null) riotDurationSlider.value = 1f;
 
+        // Remove the table's customers immediately, without cash rewards.
+        Customer[] removed = seatedCustomers.ToArray();
         seatedCustomers.Clear();
-
-        foreach (Customer customer in customersToRemove)
+        foreach (Customer customer in removed)
         {
-            if (customer == null)
-                continue;
-
+            if (customer == null) continue;
             customer.ClearSeatedTable(this);
-
-            // Customers disappear as soon as the riot starts.
             Destroy(customer.gameObject);
         }
 
-        // Start the projectile attack and delayed ingredient drops.
-        if (riotRoutine == null)
-        {
-            riotRoutine = StartCoroutine(
-                RiotSequence(customerCount)
-            );
-        }
+        if (riotRoutine == null) riotRoutine = StartCoroutine(RiotSequence());
     }
 
-
-
-    private IEnumerator RiotSequence(int customerCount)
+    private IEnumerator RiotSequence()
     {
         float elapsed = 0f;
-        float nextShotTime = 0f;
-
-        // Customers are already gone.
-        // Continue the projectile attack for the riot duration.
+        float nextShot = 0f;
+        float nextDrop = Random.Range(minDropInterval, Mathf.Max(minDropInterval, maxDropInterval));
         while (elapsed < riotDuration)
         {
-            if (elapsed >= nextShotTime)
+            if (player == null)
+            {
+                GameObject p = GameObject.FindGameObjectWithTag("Player");
+                if (p != null) player = p.transform;
+            }
+
+            if (follower != null && player != null)
+                follower.position = Vector3.MoveTowards(follower.position, player.position + followerOffset, followSpeed * Time.deltaTime);
+
+            if (elapsed >= nextShot)
             {
                 FireProjectile();
-
-                nextShotTime += Mathf.Max(
-                    0.05f,
-                    projectileInterval
-                );
+                nextShot = elapsed + projectileInterval;
+            }
+            if (elapsed >= nextDrop)
+            {
+                DropIngredientDuringRiot();
+                nextDrop = elapsed + Random.Range(minDropInterval, Mathf.Max(minDropInterval, maxDropInterval));
             }
 
             elapsed += Time.deltaTime;
-
-            // Update the remaining riot duration.
-            if (riotDurationSlider != null)
-            {
-                float remaining = Mathf.Clamp01(
-                    1f - (elapsed / riotDuration)
-                );
-
-                riotDurationSlider.value = remaining;
-            }
-
+            if (riotDurationSlider != null) riotDurationSlider.value = Mathf.Clamp01(1f - elapsed / riotDuration);
             yield return null;
         }
-        
 
-        // Riot has ended. Drop one ingredient per removed customer.
-        for (int i = 0; i < customerCount; i++)
-        {
-            DropIngredient();
-        }
+        // Any uncollected ingredients vanish when this riot ends.
+        foreach (GameObject pickup in riotIngredientDrops)
+            if (pickup != null) Destroy(pickup);
+        riotIngredientDrops.Clear();
 
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX(clip3);
-        }
-        else
-        {
-            Debug.LogWarning("AudioManager instance is missing from the scene!");
-        }
-
-        // Hide the bar when the riot is over.
-        if (riotBarCanvas != null)
-            riotBarCanvas.SetActive(false);
-
-        if (riotDurationSlider != null)
-            riotDurationSlider.value = 1f;
-
+        if (follower != null) Destroy(follower.gameObject);
+        follower = null;
+        if (riotBarCanvas != null) riotBarCanvas.SetActive(false);
+        if (riotDurationSlider != null) riotDurationSlider.value = 1f;
         riotTriggered = false;
         riotRoutine = null;
-
-        
-
-        if (logRiotEvents)
-        {
-            Debug.Log(
-                $"{name}: Riot ended. " +
-                $"{customerCount} ingredient(s) dropped."
-            );
-        }
+        if (AudioManager.Instance != null && clip3 != null) AudioManager.Instance.PlaySFX(clip3);
+        if (logRiotEvents) Debug.Log(name + ": Riot ended. Uncollected riot ingredients removed.");
     }
-
 
     private void FireProjectile()
     {
-        if (projectilePrefab == null || player == null)
-            return;
-
-        Vector3 spawnPosition =
-            projectileSpawnPoint != null
-                ? projectileSpawnPoint.position
-                : transform.position;
-
-        RiotProjectile projectile = Instantiate(
-            projectilePrefab,
-            spawnPosition,
-            Quaternion.identity
-        );
-
+        if (projectilePrefab == null || player == null) return;
+        Vector3 spawn = follower != null ? follower.position : transform.position;
+        RiotProjectile projectile = Instantiate(projectilePrefab, spawn, Quaternion.identity);
         projectile.Launch(player);
-
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX(clip2);
-        }
-        else
-        {
-            Debug.LogWarning("AudioManager instance is missing from the scene!");
-        }
+        if (AudioManager.Instance != null && clip2 != null) AudioManager.Instance.PlaySFX(clip2);
     }
 
-    private void EndRiot()
+    private void DropIngredientDuringRiot()
     {
-        // Capture the number of customers before clearing the list.
-        int customerCount = seatedCustomers.Count;
-
-        Customer[] customersToRemove =
-            seatedCustomers.ToArray();
-
-        seatedCustomers.Clear();
-
-        foreach (Customer customer in customersToRemove)
-        {
-            if (customer == null)
-                continue;
-
-            customer.ClearSeatedTable(this);
-
-            // Destroy the customer without giving cash.
-            Destroy(customer.gameObject);
-        }
-
-        // One ingredient for every customer involved in the riot.
-        for (int i = 0; i < customerCount; i++)
-        {
-            DropIngredient();
-        }
-
-        riotTriggered = false;
-
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX(clip3);
-        }
-        else
-        {
-            Debug.LogWarning("AudioManager instance is missing from the scene!");
-        }
-
-        if (logRiotEvents)
-            Debug.Log(
-                $"{name}: Riot ended. " +
-                $"{customerCount} ingredient(s) dropped."
-            );
-    }
-
-    private void DropIngredient()
-    {
-        if (ingredientPickupPrefab == null)
-        {
-            Debug.LogWarning(
-                $"{name}: Ingredient Pickup Prefab is not assigned."
-            );
-            return;
-        }
-
-        Vector2 randomOffset =
-            Random.insideUnitCircle * dropRadius;
-
-        Vector3 spawnPosition =
-            (ingredientDropPoint != null
-                ? ingredientDropPoint.position
-                : transform.position)
-            + new Vector3(randomOffset.x, randomOffset.y, 0f);
-
-        Instantiate(
-            ingredientPickupPrefab,
-            spawnPosition,
-            Quaternion.identity
-        );
+        if (ingredientPickupPrefab == null) return;
+        Vector2 offset = Random.insideUnitCircle * dropRadius;
+        Vector3 origin = follower != null ? follower.position : transform.position;
+        GameObject pickup = Instantiate(ingredientPickupPrefab, origin + new Vector3(offset.x, offset.y, 0f), Quaternion.identity);
+        riotIngredientDrops.Add(pickup);
     }
 
     public void UnregisterCustomer(Customer customer)
     {
-        if (customer != null)
-            seatedCustomers.Remove(customer);
+        if (customer != null) seatedCustomers.Remove(customer);
     }
 }
-
-
-/*using System.Collections.Generic;
-using UnityEngine;
-
-public class TableRiotController : MonoBehaviour
-{
-    [Header("Riot Effect")]
-    [SerializeField] private GameObject riotEffectPrefab;
-    [SerializeField] private float effectLifetime = 5f;
-
-    private readonly List<Customer> seatedCustomers =
-        new List<Customer>();
-
-    private bool riotInProgress = false;
-
-    public bool RiotInProgress => riotInProgress;
-
-    public void RegisterCustomer(Customer customer)
-    {
-        if (customer == null || riotInProgress)
-            return;
-
-        if (customer.PatienceExpired || customer.Patience <= 0f)
-        {
-            StartRiot();
-            return;
-        }
-
-        if (!seatedCustomers.Contains(customer))
-            seatedCustomers.Add(customer);
-
-        // A customer who reached zero patience in the queue
-        // causes a riot once seated.
-        if (customer.Patience <= 0f)
-        {
-            StartRiot();
-            return;
-        }
-
-        CheckCustomerGroup();
-    }
-
-    public void NotifyCustomerPatienceEmpty(Customer customer)
-    {
-        if (riotInProgress || customer == null)
-            return;
-
-        if (seatedCustomers.Contains(customer))
-            StartRiot();
-    }
-
-    private void CheckCustomerGroup()
-    {
-        if (riotInProgress || seatedCustomers.Count <= 1)
-            return;
-
-        CustomerType firstType = seatedCustomers[0].Type;
-
-        foreach (Customer customer in seatedCustomers)
-        {
-            if (customer == null)
-                continue;
-
-            if (customer.Type != firstType)
-            {
-                // Prevent further registration while the
-                // mixed-group riot is being processed.
-                foreach (Customer seated in seatedCustomers)
-                {
-                    if (seated != null)
-                        seated.ForcePatienceToZero();
-                }
-
-                StartRiot();
-                return;
-            }
-        }
-    }
-
-
-    public void StartRiot()
-    {
-        if (riotInProgress)
-            return;
-
-        riotInProgress = true;
-
-        Debug.Log($"Riot started at {gameObject.name}");
-
-        // Spawn exactly one effect for this riot event.
-        SpawnRiotEffect();
-
-        List<Customer> customersToDestroy =
-            new List<Customer>(seatedCustomers);
-
-        seatedCustomers.Clear();
-
-        // Also clear the table's own occupancy tracking.
-        RestaurantTable table = GetComponent<RestaurantTable>();
-
-        if (table != null)
-            table.ClearSeatedCustomers();
-
-        foreach (Customer customer in customersToDestroy)
-        {
-            if (customer != null)
-                Destroy(customer.gameObject);
-        }
-
-        // Permit another riot at this table in the future.
-        riotInProgress = false;
-    }
-
-
-    /*public void StartRiot()
-    {
-        if (riotInProgress)
-            return;
-
-        // One effect per riot event.
-        riotInProgress = true;
-
-        Debug.Log($"Riot started at {gameObject.name}");
-
-        SpawnRiotEffect();
-
-        // Snapshot the customers before clearing the list.
-        List<Customer> customersToDestroy =
-            new List<Customer>(seatedCustomers);
-
-        seatedCustomers.Clear();
-
-        // Destroy every customer registered at this table,
-        // regardless of customer type or patience.
-        foreach (Customer customer in customersToDestroy)
-        {
-            if (customer != null)
-                Destroy(customer.gameObject);
-        }
-
-        // Allow this table to riot again on a future event.
-        // This does not create another effect for this event.
-        riotInProgress = false;
-    }*/
-
-/* private void SpawnRiotEffect()
- {
-     if (riotEffectPrefab == null)
-     {
-         Debug.LogWarning(
-             $"Riot effect prefab missing on {gameObject.name}"
-         );
-         return;
-     }
-
-     GameObject effect = Instantiate(
-         riotEffectPrefab,
-         transform.position,
-         Quaternion.identity
-     );
-
-     // Play particle systems on the prefab and its children.
-     ParticleSystem[] particles =
-         effect.GetComponentsInChildren<ParticleSystem>();
-
-     foreach (ParticleSystem particle in particles)
-     {
-         particle.Play();
-     }
-
-     Destroy(effect, effectLifetime);
- }
-
- // Optional hook for your table's seating script.
- public void ClearSeatedCustomers()
- {
-     seatedCustomers.Clear();
- }
-}*/

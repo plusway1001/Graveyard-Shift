@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
     private Camera cam;
+    private PlayerDash dash;
+    public Vector2 CurrentMovement => movement;
 
     // Tracks each arrow button independently.
     private bool moveUp;
@@ -31,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
+        dash = GetComponent<PlayerDash>();
     }
 
     private void Update()
@@ -60,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb != null)
+        if (rb != null && (dash == null || !dash.IsDashing))
         {
             rb.MovePosition(
                 rb.position +
@@ -153,11 +156,14 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
     private Camera cam;
+    private PlayerDash dash;
+    public Vector2 CurrentMovement => movement;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
+        dash = GetComponent<PlayerDash>();
     }
 
     private void Update()

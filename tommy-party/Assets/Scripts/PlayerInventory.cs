@@ -43,9 +43,9 @@ public class PlayerInventory : MonoBehaviour
     // Used by the counter when it starts cooking a dish
     public bool TryUseIngredient()
     {
-        if (Ingredients <= 0) 
+        if (Ingredients <= 0)
             return false;
-        
+
         Ingredients--;
         OnChanged?.Invoke();
         return true;
@@ -68,15 +68,15 @@ public class PlayerInventory : MonoBehaviour
         {
             if (AudioManager.Instance != null)
             {
-                 AudioManager.Instance.PlaySFX(clip2);
+                AudioManager.Instance.PlaySFX(clip2);
             }
             else
             {
-                 Debug.LogWarning("AudioManager instance is missing from the scene!");
+                Debug.LogWarning("AudioManager instance is missing from the scene!");
             }
             return 0;
         }
-        else 
+        else
         {
             if (AudioManager.Instance != null)
             {
@@ -91,6 +91,14 @@ public class PlayerInventory : MonoBehaviour
         DishesOnHand += added;
         OnChanged?.Invoke();
         return added;
+    }
+
+
+    public void LoseAllDishes()
+    {
+        if (DishesOnHand <= 0) return;
+        DishesOnHand = 0;
+        OnChanged?.Invoke();
     }
 
     public bool TryTakeDishes(int amount)

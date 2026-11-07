@@ -52,52 +52,14 @@ public class RiotProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (hasHit)
-            return;
-
-        // Only the player should lose an ingredient.
-        if (other.CompareTag("Player"))
-        {
-            hasHit = true;
-
-            Debug.Log("Riot projectile hit the player!");
-
-            // Find the inventory safely.
-            PlayerInventory inventory =
-                PlayerInventory.Instance;
-
-            if (inventory == null)
-            {
-                inventory = other.GetComponent<PlayerInventory>();
-            }
-
-            if (inventory == null)
-            {
-                inventory = other.GetComponentInParent<PlayerInventory>();
-            }
-
-            if (inventory != null)
-            {
-                inventory.LoseIngredient();
-            }
-            else
-            {
-                Debug.LogWarning(
-                    "Player hit, but PlayerInventory was not found."
-                );
-            }
-
-            SpawnHitEffect(other.transform.position);
-            Destroy(gameObject);
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlaySFX(clip);
-            }
-            else
-            {
-                Debug.LogWarning("AudioManager instance is missing from the scene!");
-            }
-        }
+        if (hasHit || !other.CompareTag("Player")) return;
+        hasHit = true;
+        PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
+        if (health != null) health.TakeProjectileDamage(1);
+        SpawnHitEffect(other.transform.position);
+        if (AudioManager.Instance != null && clip != null)
+            AudioManager.Instance.PlaySFX(clip);
+        Destroy(gameObject);
     }
 
     private void SpawnHitEffect(Vector3 position)
