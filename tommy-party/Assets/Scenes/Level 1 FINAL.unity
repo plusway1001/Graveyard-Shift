@@ -976,7 +976,7 @@ GameObject:
   - component: {fileID: 246717967}
   - component: {fileID: 246717966}
   - component: {fileID: 246717965}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Walls (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3979,7 +3979,7 @@ GameObject:
   - component: {fileID: 762075612}
   - component: {fileID: 762075611}
   - component: {fileID: 762075610}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Walls (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4813,6 +4813,10 @@ MonoBehaviour:
   dashDuration: 0.18
   dashCooldown: 1.5
   dashKey: 32
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  wallSkin: 0.03
 --- !u!114 &847561278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4830,7 +4834,7 @@ MonoBehaviour:
   livesText: {fileID: 819402419}
   gameOverPanel: {fileID: 1129832841}
   hitInvulnerability: 1
-  disablePlayerCollidersDuringHit: 1
+  invisibleAlpha: 0.4
 --- !u!1001 &873333402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6924,7 +6928,7 @@ GameObject:
   - component: {fileID: 1328890613}
   - component: {fileID: 1328890612}
   - component: {fileID: 1328890611}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Walls (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7717,7 +7721,7 @@ GameObject:
   - component: {fileID: 1392240326}
   - component: {fileID: 1392240325}
   - component: {fileID: 1392240324}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Walls (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8761,7 +8765,7 @@ GameObject:
   - component: {fileID: 1604531360}
   - component: {fileID: 1604531359}
   - component: {fileID: 1604531358}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Walls (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9155,7 +9159,7 @@ GameObject:
   - component: {fileID: 1720032423}
   - component: {fileID: 1720032422}
   - component: {fileID: 1720032421}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Walls (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
