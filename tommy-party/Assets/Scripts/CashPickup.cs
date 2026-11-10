@@ -11,6 +11,9 @@ public class CashPickup : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         RevenueManager.Instance?.AddCash(value);
+
+        GameObjectiveManager.Instance?.AddRevenue(value);
+
         Destroy(gameObject);
         if (AudioManager.Instance != null)
         {
