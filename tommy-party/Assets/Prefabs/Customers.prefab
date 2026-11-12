@@ -491,14 +491,14 @@ MonoBehaviour:
       - {fileID: 8045105199895679372, guid: ddde84264535298419f4fa3f1fdb5cff, type: 3}
       - {fileID: 8045105199895679372, guid: 1b614cce347777e4889818284a3eb97d, type: 3}
       - {fileID: 8045105199895679372, guid: 11ca3f84a5a855641aec06e6389d74ea, type: 3}
-      frameRate: 60
+      frameRate: 5
       loop: 1
     sitting:
       frames:
       - {fileID: 6267335956967404837, guid: cf2fe4025eef2184cafecb4ffcf92ba5, type: 3}
       - {fileID: 6267335956967404837, guid: 4ef270eea01ac6f40b6c5a9f46126051, type: 3}
       - {fileID: 6267335956967404837, guid: cf456eff4ec782e4582158bb5096641b, type: 3}
-      frameRate: 60
+      frameRate: 5
       loop: 1
     eating:
       frames:
@@ -506,7 +506,7 @@ MonoBehaviour:
       - {fileID: 5732954497283130354, guid: a1483e6440fae4a408a32353e943743b, type: 3}
       - {fileID: 5732954497283130354, guid: 5e7f13f8ebd8f764f95b9ffc86b360e3, type: 3}
       - {fileID: 5732954497283130354, guid: fb6cf6c534b401048accd4805a825c7a, type: 3}
-      frameRate: 60
+      frameRate: 10
       loop: 1
   - type: 2
     idle:
@@ -514,14 +514,14 @@ MonoBehaviour:
       - {fileID: 8155683143726174710, guid: 0de722044d580554ab78f9037e5db12e, type: 3}
       - {fileID: 8155683143726174710, guid: 0358aac1259a3e24386419f3b3315b7d, type: 3}
       - {fileID: 8155683143726174710, guid: 8ecc149bceea0b14d952473fb51b4d5d, type: 3}
-      frameRate: 60
+      frameRate: 5
       loop: 1
     sitting:
       frames:
       - {fileID: 1597781997407652988, guid: 948c9ad841ed1564fb10bb2029888987, type: 3}
       - {fileID: 1597781997407652988, guid: d61b1ba84875640499721ef57b842d47, type: 3}
       - {fileID: 1597781997407652988, guid: 191bcbe369a0b6f43a94a48e5b7edb9f, type: 3}
-      frameRate: 60
+      frameRate: 5
       loop: 1
     eating:
       frames:
@@ -529,7 +529,7 @@ MonoBehaviour:
       - {fileID: 5961459998463414153, guid: d1a976a789fca5b45a8a71ab44d2de51, type: 3}
       - {fileID: 5961459998463414153, guid: a97c42732e8adc84a9f9b7845f25a75a, type: 3}
       - {fileID: 5961459998463414153, guid: 1c7556c4692350d43aad94cbb8f443d8, type: 3}
-      frameRate: 60
+      frameRate: 10
       loop: 1
   - type: 1
     idle:
@@ -537,14 +537,14 @@ MonoBehaviour:
       - {fileID: -6127062174247355706, guid: c32063841c391754e8e055fda0970c80, type: 3}
       - {fileID: -6127062174247355706, guid: 0787aae0467399d44a67895c60244db5, type: 3}
       - {fileID: -6127062174247355706, guid: b02414a42547c17458067298bde44128, type: 3}
-      frameRate: 60
+      frameRate: 5
       loop: 1
     sitting:
       frames:
       - {fileID: 6055058632297388601, guid: 4433df614a6a8554abb12baf96fe75a9, type: 3}
       - {fileID: 6055058632297388601, guid: cbcc6747f645df249a938968837e1cf3, type: 3}
       - {fileID: 6055058632297388601, guid: ce69f377c706ac44696c6c01abfadd67, type: 3}
-      frameRate: 60
+      frameRate: 5
       loop: 1
     eating:
       frames:
@@ -552,7 +552,7 @@ MonoBehaviour:
       - {fileID: -6776515179660224497, guid: c2fbb646347b39c42972be0cca703325, type: 3}
       - {fileID: -6776515179660224497, guid: 6c64a5221547bde4b82833f89299c752, type: 3}
       - {fileID: -6776515179660224497, guid: 621e0d51c1d657747bf6182cdbc166ee, type: 3}
-      frameRate: 60
+      frameRate: 10
       loop: 1
 --- !u!1 &8168089075091643461
 GameObject:
