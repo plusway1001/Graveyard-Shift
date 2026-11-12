@@ -7123,6 +7123,7 @@ GameObject:
   - component: {fileID: 847561276}
   - component: {fileID: 847561278}
   - component: {fileID: 847561277}
+  - component: {fileID: 847561279}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7144,6 +7145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   recoilDistance: 1
   moveSpeed: 5
+  rotateToMouse: 0
+  fixedAngle: 0
   bulletPrefab: {fileID: 3429659728600299800, guid: 5d61ee7d215f7bf4190e280da6a40b8b, type: 3}
   firePoint: {fileID: 839826122}
   facingAngle: 0
@@ -7271,7 +7274,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.61219877, g: 0.9685534, b: 0.81185913, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7384,6 +7387,41 @@ MonoBehaviour:
   gameOverPanel: {fileID: 1129832841}
   hitInvulnerability: 1
   invisibleAlpha: 0.4
+--- !u!114 &847561279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847561268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39a85b8a6abfb3429ab78aa26337a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpriteAnimator
+  spriteRenderer: {fileID: 847561272}
+  idleAnimation:
+    frames:
+    - {fileID: 8045105199895679372, guid: ddde84264535298419f4fa3f1fdb5cff, type: 3}
+    - {fileID: 8045105199895679372, guid: 1b614cce347777e4889818284a3eb97d, type: 3}
+    - {fileID: 8045105199895679372, guid: 11ca3f84a5a855641aec06e6389d74ea, type: 3}
+    frameRate: 5
+    loop: 1
+  walkingAnimation:
+    frames:
+    - {fileID: 6267335956967404837, guid: cf2fe4025eef2184cafecb4ffcf92ba5, type: 3}
+    - {fileID: 6267335956967404837, guid: 4ef270eea01ac6f40b6c5a9f46126051, type: 3}
+    - {fileID: 6267335956967404837, guid: cf456eff4ec782e4582158bb5096641b, type: 3}
+    frameRate: 10
+    loop: 1
+  dashAnimation:
+    frames:
+    - {fileID: 5732954497283130354, guid: d350c677f7f02c04094953dd4d9c098c, type: 3}
+    - {fileID: 5732954497283130354, guid: a1483e6440fae4a408a32353e943743b, type: 3}
+    - {fileID: 5732954497283130354, guid: 5e7f13f8ebd8f764f95b9ffc86b360e3, type: 3}
+    - {fileID: 5732954497283130354, guid: fb6cf6c534b401048accd4805a825c7a, type: 3}
+    frameRate: 12
+    loop: 1
 --- !u!1 &860177930
 GameObject:
   m_ObjectHideFlags: 0
