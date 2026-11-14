@@ -21,6 +21,7 @@ public class PlayerDash : MonoBehaviour
 
     public bool IsDashing { get; private set; }
     public float CooldownRemaining { get; private set; }
+    public float DashCooldown => dashCooldown;
 
     private Rigidbody2D rb;
     private Collider2D bodyCollider;
@@ -44,7 +45,11 @@ public class PlayerDash : MonoBehaviour
 
     public void Dash()
     {
-        if (IsDashing || CooldownRemaining > 0f || (health != null && health.IsGameOver)) return;
+        //if (IsDashing || CooldownRemaining > 0f || (health != null && health.IsGameOver)) return;
+
+        if (IsDashing || CooldownRemaining > 0f ||
+    (health != null && health.IsGameOver) ||
+    (movement != null && movement.IsFrozen)) return;
 
         Vector2 direction = movement != null ? movement.CurrentMovement : Vector2.zero;
         if (direction.sqrMagnitude < 0.01f) direction = Vector2.right;
