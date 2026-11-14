@@ -101,6 +101,13 @@ public class PlayerInventory : MonoBehaviour
         OnChanged?.Invoke();
     }
 
+    public void LoseDishes()
+    {
+        if (DishesOnHand <= 0) return;
+        DishesOnHand--;
+        OnChanged?.Invoke();
+    }
+
     public bool TryTakeDishes(int amount)
     {
         if (amount <= 0 || DishesOnHand < amount) return false;

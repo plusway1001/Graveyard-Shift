@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class NightCycleManager : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class NightCycleManager : MonoBehaviour
     [SerializeField] private TMP_Text timeText;
     [SerializeField] private TMP_Text phaseText;
     [SerializeField] private TMP_Text nightCounterText;
+    [SerializeField] private Slider nightProgressSlider;
+    [SerializeField] private bool drainInsteadOfFill = false;
 
     [Header("Night Counter")]
     [SerializeField] private int nightCount = 1;
@@ -71,6 +74,24 @@ public class NightCycleManager : MonoBehaviour
 
         UpdateNightPhase(false);
         UpdateUI();
+    }
+
+    private void UpdateNightProgressUI()
+    {
+        if (nightProgressSlider == null)
+            return;
+
+        // Hours passed since the night began at startHour (20:00).
+        // 20:00-23:59 -> currentHour - 20, 00:00-06:00 -> currentHour + 4
+        float elapsedHours = currentHour >= startHour
+            ? currentHour - startHour
+            : currentHour + (24f - startHour);
+
+        // Length of the night: 20:00 -> 06:00 = 10 hours.
+        float nightLength = (24f - startHour) + endHour;
+
+        float progress = Mathf.Clamp01(elapsedHours / nightLength);
+        nightProgressSlider.value = drainInsteadOfFill ? 1f - progress : progress;
     }
 
     private void AdvanceTime()
@@ -168,6 +189,7 @@ public class NightCycleManager : MonoBehaviour
         UpdateTimeUI();
         UpdatePhaseUI();
         UpdateNightCounterUI();
+        UpdateNightProgressUI();
     }
 
     private void UpdateTimeUI()

@@ -11,7 +11,8 @@ public class BananaPeel : MonoBehaviour
         PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
         if (health != null && health.IsInvulnerable) return; // Dash/hit protection dodges the peel.
         PlayerInventory inventory = other.GetComponentInParent<PlayerInventory>();
-        if (inventory != null) inventory.LoseAllDishes();
+        //if (inventory != null) inventory.LoseAllDishes();
+        if (inventory != null) inventory.LoseDishes();
         if (health != null) health.GrantInvulnerability(healthHitProtection);
         if (AudioManager.Instance != null && slipSound != null) AudioManager.Instance.PlaySFX(slipSound);
         if (destroyPeelOnContact) Destroy(gameObject);
