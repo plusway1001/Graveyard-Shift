@@ -30,6 +30,14 @@ public class PlayerMovement : MonoBehaviour
     private PlayerSpriteAnimator spriteAnimator;
     public Vector2 CurrentMovement => movement;
 
+    // Set by PlayerFreeze (e.g. Ghoul mud). While frozen the player cannot move.
+    public bool IsFrozen { get; private set; }
+
+    public void SetFrozen(bool frozen)
+    {
+        IsFrozen = frozen;
+    }
+
     // Tracks each arrow button independently.
     private bool moveUp;
     private bool moveDown;
@@ -64,6 +72,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         movement = new Vector2(horizontal, vertical).normalized;
+
+        // Frozen (stuck in mud): ignore all movement input.
+        if (IsFrozen)
+            movement = Vector2.zero;
 
         // Dash > walking > idle.
         if (spriteAnimator != null)

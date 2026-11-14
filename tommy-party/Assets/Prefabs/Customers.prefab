@@ -290,6 +290,7 @@ GameObject:
   - component: {fileID: 826748761881652742}
   - component: {fileID: 1425477615060180942}
   - component: {fileID: 1069052936659327820}
+  - component: {fileID: -1972898628930588790}
   m_Layer: 0
   m_Name: Customers
   m_TagString: Untagged
@@ -458,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   customerType: 0
-  customerName: Ghosy
+  customerName: Ghost
   maxPatience: 100
   patience: 100
   patienceDecreasePerSecond: 5
@@ -554,6 +555,24 @@ MonoBehaviour:
       - {fileID: 1147376856180928033, guid: cdac645dddb20f4eeb8b855d593f3345, type: 3}
       frameRate: 10
       loop: 1
+--- !u!114 &-1972898628930588790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910396295443603047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e6373972c58a342a723c33cc2042be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhoulMudThrower
+  mudPrefab: {fileID: 8825458394697379747, guid: 28e71006a6147004897b7e6495d5373b, type: 3}
+  firePoint: {fileID: 5328524452126673706}
+  throwRange: 4
+  throwInterval: 2.5
+  firstThrowDelay: 0.6
+  throwClip: {fileID: 8300000, guid: cb83edfa070d49e4a823a095ccb64267, type: 3}
 --- !u!1 &8168089075091643461
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,6 +30,10 @@ public class Customer : MonoBehaviour
     private CustomerSpriteAnimator spriteAnimator;
 
     public CustomerType Type => customerType;
+
+    public bool IsSeated => seatedTable != null;
+    public bool HasBeenServed => hasBeenServed;
+
     public string CustomerName =>
         string.IsNullOrWhiteSpace(customerName)
             ? customerType.ToString()
