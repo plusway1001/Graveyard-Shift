@@ -23,12 +23,19 @@ public class PlayerMovement : MonoBehaviour
     [Header("Mobile Controls")]
     public bool enableMobileControls = true;
 
+    [Tooltip("On-screen joystick. Leave empty to find one in the scene automatically.")]
+    public VirtualJoystick joystick;
+
+    [Tooltip("On: a small joystick push walks slowly. Off: always full speed.")]
+    public bool analogJoystick = true;
+
     private Rigidbody2D rb;
     private Vector2 movement;
     private Camera cam;
     private PlayerDash dash;
     private PlayerSpriteAnimator spriteAnimator;
-    public Vector2 CurrentMovement => movement;
+    // Always a unit direction (or zero), same as before, so dash etc. behave the same.
+    public Vector2 CurrentMovement => movement.sqrMagnitude > 0.0001f ? movement.normalized : Vector2.zero;
 
     // Set by PlayerFreeze (e.g. Ghoul mud). While frozen the player cannot move.
     public bool IsFrozen { get; private set; }
@@ -54,6 +61,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (spriteAnimator == null)
             spriteAnimator = GetComponentInChildren<PlayerSpriteAnimator>(true);
+
+        if (joystick == null)
+            joystick = FindFirstObjectByType<VirtualJoystick>(FindObjectsInactive.Include);
     }
 
     private void Update()
@@ -73,7 +83,14 @@ public class PlayerMovement : MonoBehaviour
 
         movement = new Vector2(horizontal, vertical).normalized;
 
-        // Frozen (stuck in mud): ignore all movement input.
+        // Joystick overrides keyboard / arrow buttons while it is being touched.
+        if (enableMobileControls && joystick != null && joystick.isActiveAndEnabled && joystick.IsHeld)
+        {
+            Vector2 stick = joystick.Direction;
+            movement = analogJoystick ? Vector2.ClampMagnitude(stick, 1f) : stick.normalized;
+        }
+
+        // Frozen (stuck in mud): ignore ALL movement input (keyboard, buttons and joystick).
         if (IsFrozen)
             movement = Vector2.zero;
 
@@ -186,6 +203,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 5f;
 
+    [Header("Rotation")]
+    [Tooltip("Turn off to stop the player rotating towards the mouse.")]
+    public bool rotateToMouse = true;
+
+    [Tooltip("Angle (degrees) the player snaps to while mouse rotation is off.")]
+    public float fixedAngle = 0f;
+
     [Header("Shooting")]
     public GameObject bulletPrefab;
     public Transform firePoint;
@@ -198,7 +222,16 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private Camera cam;
     private PlayerDash dash;
+    private PlayerSpriteAnimator spriteAnimator;
     public Vector2 CurrentMovement => movement;
+
+    // Set by PlayerFreeze (e.g. Ghoul mud). While frozen the player cannot move.
+    public bool IsFrozen { get; private set; }
+
+    public void SetFrozen(bool frozen)
+    {
+        IsFrozen = frozen;
+    }
 
     // Tracks each arrow button independently.
     private bool moveUp;
@@ -211,6 +244,11 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
         dash = GetComponent<PlayerDash>();
+
+        spriteAnimator = GetComponent<PlayerSpriteAnimator>();
+
+        if (spriteAnimator == null)
+            spriteAnimator = GetComponentInChildren<PlayerSpriteAnimator>(true);
     }
 
     private void Update()
@@ -230,11 +268,30 @@ public class PlayerMovement : MonoBehaviour
 
         movement = new Vector2(horizontal, vertical).normalized;
 
+        // Frozen (stuck in mud): ignore all movement input.
+        if (IsFrozen)
+            movement = Vector2.zero;
+
+        // Dash > walking > idle.
+        if (spriteAnimator != null)
+        {
+            bool isDashing = dash != null && dash.IsDashing;
+            spriteAnimator.SetMoving(movement.sqrMagnitude > 0.01f, isDashing);
+        }
+
         // Mouse aiming for desktop.
         // Avoid rotating towards the finger pressing mobile buttons.
-        if (!Application.isMobilePlatform)
+        if (rotateToMouse)
         {
-            RotateToMouse();
+            if (!Application.isMobilePlatform)
+            {
+                RotateToMouse();
+            }
+        }
+        else if (rb != null)
+        {
+            // Rotation is off: snap to the fixed angle.
+            rb.rotation = fixedAngle;
         }
     }
 
