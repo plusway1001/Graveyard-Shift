@@ -5,7 +5,7 @@ public class BananaPeel : MonoBehaviour
 {
     [SerializeField] private bool destroyPeelOnContact = true;
     [SerializeField] private AudioClip slipSound;
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
         PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
