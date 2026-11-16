@@ -27,6 +27,9 @@ public class PlayerDash : MonoBehaviour
     private Collider2D bodyCollider;
     private readonly RaycastHit2D[] castHits = new RaycastHit2D[8];
 
+    [Header("Audio (optional)")]
+    [SerializeField] private AudioClip[] dashClip;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -50,6 +53,9 @@ public class PlayerDash : MonoBehaviour
         if (IsDashing || CooldownRemaining > 0f ||
     (health != null && health.IsGameOver) ||
     (movement != null && movement.IsFrozen)) return;
+
+        if (dashClip != null && AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX(dashClip[Random.Range(0, dashClip.Length)]);
 
         Vector2 direction = movement != null ? movement.CurrentMovement : Vector2.zero;
         if (direction.sqrMagnitude < 0.01f) direction = Vector2.right;

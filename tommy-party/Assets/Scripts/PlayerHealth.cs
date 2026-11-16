@@ -26,6 +26,9 @@ public class PlayerHealth : MonoBehaviour
     private Color[] originalColors;
     private Coroutine protectionRoutine;
 
+    [Header("Audio (optional)")]
+    [SerializeField] private AudioClip[] hurtClip, deathClip;
+
     private void Awake()
     {
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>(true);
@@ -45,8 +48,18 @@ public class PlayerHealth : MonoBehaviour
         CurrentLives = Mathf.Max(0, CurrentLives - amount);
         RefreshUI();
 
-        if (CurrentLives <= 0) GameOver();
-        else BeginHitProtection(hitInvulnerability);
+        if (CurrentLives <= 0)
+        {
+            if (deathClip != null && AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(deathClip[Random.Range(0, deathClip.Length)]);
+            GameOver();
+        }
+        else
+        {
+            if (hurtClip != null && AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(hurtClip[Random.Range(0, hurtClip.Length)]);
+            BeginHitProtection(hitInvulnerability);
+        }
         return true;
     }
 
