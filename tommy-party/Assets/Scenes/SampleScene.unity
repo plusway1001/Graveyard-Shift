@@ -1658,7 +1658,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847314822}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2ca2272c6637ef42843e3830af22228, type: 3}
   m_Name: 
@@ -1697,10 +1697,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   recoilDistance: 0.15
   moveSpeed: 5
+  rotateToMouse: 1
+  fixedAngle: 0
   bulletPrefab: {fileID: 3429659728600299800, guid: 5d61ee7d215f7bf4190e280da6a40b8b, type: 3}
   firePoint: {fileID: 839826122}
   facingAngle: 0
   enableMobileControls: 1
+  joystick: {fileID: 0}
+  analogJoystick: 1
 --- !u!61 &847561270
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2748,7 +2752,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3313,6 +3317,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 8300000, guid: a533401bbb78e194b9eb00836a8caa62, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 847314823}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

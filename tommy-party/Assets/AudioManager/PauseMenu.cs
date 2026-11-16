@@ -14,7 +14,7 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f;
-        AudioManager.Instance.SetVolume(1f);
+        //AudioManager.Instance.SetVolume(1f);
 
         if (pausePanel != null)
             pausePanel.SetActive(false);
@@ -44,7 +44,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0f;
-        AudioManager.Instance.SetVolume(SetLowVol);
+        //AudioManager.Instance.SetVolume(SetLowVol);
 
         if (pausePanel != null)
             pausePanel.SetActive(true);
@@ -54,7 +54,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
-        AudioManager.Instance.SetVolume(1f);
+        //AudioManager.Instance.SetVolume(1f);
 
         if (pausePanel != null)
             pausePanel.SetActive(false);
