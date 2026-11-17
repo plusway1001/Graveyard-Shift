@@ -147,8 +147,10 @@ public class TableUIManager : MonoBehaviour
 
             if (buttonText != null)
             {
+                //buttonText.text =
+                    //$"{i + 1}. {customer.CustomerName} [{customer.Type}]";
                 buttonText.text =
-                    $"{i + 1}. {customer.CustomerName} [{customer.Type}]";
+                    $"{i + 1}. {customer.CustomerName}";
             }
 
             Customer selectedCustomer = customer;
