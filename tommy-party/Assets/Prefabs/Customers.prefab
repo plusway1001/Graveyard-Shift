@@ -515,7 +515,8 @@ MonoBehaviour:
       - {fileID: 1149645888530570243, guid: ef7dc79db1d0210111a8134caf08a17d, type: 3}
       - {fileID: 1061456765476692300, guid: ef7dc79db1d0210111a8134caf08a17d, type: 3}
       - {fileID: 790018023399982716, guid: ef7dc79db1d0210111a8134caf08a17d, type: 3}
-      frameRate: 5
+      - {fileID: 1149645888530570243, guid: ef7dc79db1d0210111a8134caf08a17d, type: 3}
+      frameRate: 15
       loop: 1
     sitting:
       frames:
@@ -569,9 +570,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GhoulMudThrower
   mudPrefab: {fileID: 8825458394697379747, guid: 28e71006a6147004897b7e6495d5373b, type: 3}
   firePoint: {fileID: 5328524452126673706}
-  throwRange: 4
+  throwRange: 8
   throwInterval: 2.5
-  firstThrowDelay: 0.6
+  firstThrowDelay: 0.4
   throwClip: {fileID: 8300000, guid: cb83edfa070d49e4a823a095ccb64267, type: 3}
 --- !u!1 &8168089075091643461
 GameObject:

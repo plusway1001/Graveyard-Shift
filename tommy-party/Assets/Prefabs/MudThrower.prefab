@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7864959844511393239}
   - component: {fileID: 3639797334747342955}
   - component: {fileID: 8825458394697379747}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MudThrower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 9062607142165174483, guid: ae3d14aaea458c84798a1178e4699088, type: 3}
   m_Color: {r: 0.8238993, g: 0.5465966, b: 0, a: 1}
