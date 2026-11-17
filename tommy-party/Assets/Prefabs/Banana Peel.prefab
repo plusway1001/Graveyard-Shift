@@ -141,6 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9c9ea51e82bf34482d8512e5c19fab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BananaPeel
-  destroyPeelOnContact: 1
+  destroyPeelOnContact: 0
   slipSound: {fileID: 8300000, guid: 4ea41bb259ccefd4787fd7f4cf9d2a5c, type: 3}
   healthHitProtection: 0.8
