@@ -45,6 +45,8 @@ public class RestaurantTable : MonoBehaviour
 
     public AudioClip clip;
 
+    public GameObject hitEffects;
+
     private void Awake()
     {
         riotController = GetComponent<TableRiotController>();
@@ -139,6 +141,9 @@ public class RestaurantTable : MonoBehaviour
         {
             Debug.LogWarning("AudioManager instance is missing from the scene!");
         }
+
+        if (hitEffects != null)
+            Instantiate(hitEffects, freeSeat.position, Quaternion.identity);
 
         // Register the customer with the riot system.
         if (riotController != null)

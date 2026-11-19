@@ -5,6 +5,7 @@ public class BananaPeel : MonoBehaviour
 {
     [SerializeField] private bool destroyPeelOnContact = true;
     [SerializeField] private AudioClip slipSound;
+    public GameObject hitEffects;
     private void OnTriggerStay2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
@@ -19,6 +20,10 @@ public class BananaPeel : MonoBehaviour
         if (inventory != null) inventory.LoseDishes();
         if (health != null) health.GrantInvulnerability(healthHitProtection);
         if (AudioManager.Instance != null && slipSound != null) AudioManager.Instance.PlaySFX(slipSound);
+
+        if (hitEffects != null)
+            Instantiate(hitEffects, transform.position, Quaternion.identity);
+
         if (destroyPeelOnContact) Destroy(gameObject);
     }
     [SerializeField, Min(0f)] private float healthHitProtection = 0.8f;

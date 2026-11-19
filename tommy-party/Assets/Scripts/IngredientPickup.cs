@@ -12,7 +12,7 @@ public class IngredientPickup : MonoBehaviour
     private float spawnTime;
     private Vector3 basePos;
     public AudioClip clip;
-
+    public GameObject hitEffects;
     private void Start()
     {
         spawnTime = Time.time;
@@ -29,6 +29,8 @@ public class IngredientPickup : MonoBehaviour
         if (Time.time - spawnTime < pickupDelay || !other.CompareTag("Player")) return;
         if (PlayerInventory.Instance.AddIngredients(amount) > 0)
         {
+            if (hitEffects != null)
+                Instantiate(hitEffects, transform.position, Quaternion.identity);
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlaySFX(clip);

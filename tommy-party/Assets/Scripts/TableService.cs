@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,15 @@ using UnityEngine.Events;
 // Flow: customers seated -> player serves ALL of them at once
 // (needs dishes >= customers) -> eating bar fills -> customers leave
 // 1 cash each on the table -> seats free up.
+
+[System.Serializable]
+public struct TypeSounds
+{
+    public CustomerType type;
+    public AudioClip[] clips;
+}
+
+
 public class TableService : MonoBehaviour
 {
     public enum TableState { Empty, Waiting, Eating }
@@ -32,6 +42,14 @@ public class TableService : MonoBehaviour
 
     public AudioClip clip, clip2;
 
+    [Header("Customer Audio (per customer type)")]
+    [SerializeField] private TypeSounds[] eatingSounds;
+    [SerializeField] private TypeSounds[] leavingSounds;
+
+    public GameObject hitEffects;
+    public Transform pos;
+    public Transform PosCLeave;
+
     private void Awake()
     {
         table = GetComponent<RestaurantTable>();
@@ -42,6 +60,30 @@ public class TableService : MonoBehaviour
         eatingBar = WorldBar.Create("EatingBar", (Vector2)transform.position + eatingBarOffset,
                                     new Color(0.55f, 1f, 0.45f), 1.6f);
         eatingBar.Hide();
+    }
+
+    private void PlayTypeSound(GameObject customer, TypeSounds[] sounds)
+    {
+        if (AudioManager.Instance == null || sounds == null)
+            return;
+
+        Customer c = customer.GetComponent<Customer>();
+
+        if (c == null)
+            return;
+
+        foreach (TypeSounds entry in sounds)
+        {
+            if (entry.type != c.Type)
+                continue;
+
+            if (entry.clips == null || entry.clips.Length == 0)
+                return;
+
+            AudioClip clip = entry.clips[Random.Range(0, entry.clips.Length)];
+            AudioManager.Instance.PlaySFX(clip);
+            return;
+        }
     }
 
     // Call this from your seating code when a customer sits here
@@ -95,6 +137,9 @@ public class TableService : MonoBehaviour
         {
             Debug.LogWarning("AudioManager instance is missing from the scene!");
         }
+
+        if (hitEffects != null)
+            Instantiate(hitEffects, pos.position, Quaternion.identity);
         StartCoroutine(EatRoutine());
         return true;
     }
@@ -115,6 +160,7 @@ public class TableService : MonoBehaviour
             // add  void OnServed() { ... }  to your customer script.
             c.SendMessage("OnServed", SendMessageOptions.DontRequireReceiver);
             StartEatingAnimation(c);
+            PlayTypeSound(c, eatingSounds);
         }
 
         eatingBar.Show();
@@ -143,8 +189,21 @@ public class TableService : MonoBehaviour
             }
         }
 
-        foreach (var c in seated)
+        /*foreach (var c in seated)
             if (c != null) Destroy(c);
+        seated.Clear();*/
+
+        foreach (var c in seated)
+        {
+            if (c == null) continue;
+
+            PlayTypeSound(c, leavingSounds);
+            Destroy(c);
+        }
+
+        if (hitEffects != null)
+            Instantiate(hitEffects, PosCLeave.position, Quaternion.identity);
+
         seated.Clear();
 
         State = TableState.Empty;

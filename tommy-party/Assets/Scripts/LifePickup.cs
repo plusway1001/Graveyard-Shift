@@ -5,6 +5,7 @@ public class LifePickup : MonoBehaviour
 {
     [SerializeField, Min(1)] private int livesToGive = 1;
     [SerializeField] private AudioClip pickupSound;
+    public GameObject hitEffects;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -14,6 +15,8 @@ public class LifePickup : MonoBehaviour
         health.AddLife(livesToGive);
         if (AudioManager.Instance != null && pickupSound != null)
             AudioManager.Instance.PlaySFX(pickupSound);
+        if (hitEffects != null)
+            Instantiate(hitEffects, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

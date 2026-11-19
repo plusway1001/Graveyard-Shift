@@ -23,6 +23,8 @@ public class PlayerInventory : MonoBehaviour
 
     public AudioClip clip2, clip;
 
+    public GameObject hitEffects;
+
     private void Awake()
     {
         Instance = this;
@@ -86,6 +88,8 @@ public class PlayerInventory : MonoBehaviour
             {
                 Debug.LogWarning("AudioManager instance is missing from the scene!");
             }
+            if (hitEffects != null)
+                Instantiate(hitEffects, transform.position, Quaternion.identity);
         }
 
         DishesOnHand += added;
