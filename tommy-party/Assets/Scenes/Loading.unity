@@ -1654,7 +1654,7 @@ MonoBehaviour:
   minDelay: 4
   maxDelay: 6
   loadMode: 1
-  sceneIndex: 1
+  sceneIndex: 7
   sceneName: 
 --- !u!1 &847561268
 GameObject:

@@ -6,6 +6,45 @@ public class BananaPeel : MonoBehaviour
     [SerializeField] private bool destroyPeelOnContact = true;
     [SerializeField] private AudioClip slipSound;
     public GameObject hitEffects;
+
+    [Tooltip("How long the player sprite spins (flips left/right) after slipping.")]
+    [SerializeField, Min(0f)] private float slipSpinDuration = 0.8f;
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+        PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
+        if (health != null && health.IsInvulnerable) return; // Dash/hit protection dodges the peel.
+        PlayerInventory inventory = other.GetComponentInParent<PlayerInventory>();
+
+        // Carrying 0 dishes: the player walks over the peel safely (the peel stays).
+        if (inventory != null && inventory.DishesOnHand <= 0) return;
+
+        //if (inventory != null) inventory.LoseAllDishes();
+        if (inventory != null) inventory.LoseDishes();
+        if (health != null) health.GrantInvulnerability(healthHitProtection);
+        if (AudioManager.Instance != null && slipSound != null) AudioManager.Instance.PlaySFX(slipSound);
+
+        // Spin the player sprite left/right for a moment.
+        PlayerSlipEffect slip = other.GetComponentInParent<PlayerSlipEffect>();
+        if (slip != null) slip.Play(slipSpinDuration);
+
+        if (hitEffects != null)
+            Instantiate(hitEffects, transform.position, Quaternion.identity);
+
+        if (destroyPeelOnContact) Destroy(gameObject);
+    }
+    [SerializeField, Min(0f)] private float healthHitProtection = 0.8f;
+}
+
+/*using UnityEngine;
+
+// Put on banana peel with a trigger collider. Player loses all carried dishes.
+public class BananaPeel : MonoBehaviour
+{
+    [SerializeField] private bool destroyPeelOnContact = true;
+    [SerializeField] private AudioClip slipSound;
+    public GameObject hitEffects;
     private void OnTriggerStay2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
@@ -24,28 +63,6 @@ public class BananaPeel : MonoBehaviour
         if (hitEffects != null)
             Instantiate(hitEffects, transform.position, Quaternion.identity);
 
-        if (destroyPeelOnContact) Destroy(gameObject);
-    }
-    [SerializeField, Min(0f)] private float healthHitProtection = 0.8f;
-}
-
-/*using UnityEngine;
-
-// Put on banana peel with a trigger collider. Player loses all carried dishes.
-public class BananaPeel : MonoBehaviour
-{
-    [SerializeField] private bool destroyPeelOnContact = true;
-    [SerializeField] private AudioClip slipSound;
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!other.CompareTag("Player")) return;
-        PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
-        if (health != null && health.IsInvulnerable) return; // Dash/hit protection dodges the peel.
-        PlayerInventory inventory = other.GetComponentInParent<PlayerInventory>();
-        //if (inventory != null) inventory.LoseAllDishes();
-        if (inventory != null) inventory.LoseDishes();
-        if (health != null) health.GrantInvulnerability(healthHitProtection);
-        if (AudioManager.Instance != null && slipSound != null) AudioManager.Instance.PlaySFX(slipSound);
         if (destroyPeelOnContact) Destroy(gameObject);
     }
     [SerializeField, Min(0f)] private float healthHitProtection = 0.8f;

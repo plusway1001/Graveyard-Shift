@@ -96,7 +96,8 @@ public class RestaurantTable : MonoBehaviour
                 return;
             }
 
-            TableUIManager.Instance.OpenTable(this);
+            Debug.Log("Remove Table UI Manager!");
+            //TableUIManager.Instance.OpenTable(this);
         }
     }
 
