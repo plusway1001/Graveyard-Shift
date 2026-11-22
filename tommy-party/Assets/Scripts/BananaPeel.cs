@@ -4,7 +4,8 @@ using UnityEngine;
 public class BananaPeel : MonoBehaviour
 {
     [SerializeField] private bool destroyPeelOnContact = true;
-    [SerializeField] private AudioClip slipSound;
+    [SerializeField] private AudioClip[] slipSound;
+    [SerializeField] private AudioClip slipSound2;
     public GameObject hitEffects;
 
     [Tooltip("How long the player sprite spins (flips left/right) after slipping.")]
@@ -23,7 +24,11 @@ public class BananaPeel : MonoBehaviour
         //if (inventory != null) inventory.LoseAllDishes();
         if (inventory != null) inventory.LoseDishes();
         if (health != null) health.GrantInvulnerability(healthHitProtection);
-        if (AudioManager.Instance != null && slipSound != null) AudioManager.Instance.PlaySFX(slipSound);
+        if (AudioManager.Instance != null && slipSound != null) 
+            AudioManager.Instance.PlaySFX(slipSound[Random.Range(0, slipSound.Length)]);
+
+        if (AudioManager.Instance != null && slipSound2 != null) 
+            AudioManager.Instance.PlaySFX(slipSound2);
 
         // Spin the player sprite left/right for a moment.
         PlayerSlipEffect slip = other.GetComponentInParent<PlayerSlipEffect>();

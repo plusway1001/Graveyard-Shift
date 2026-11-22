@@ -3840,7 +3840,7 @@ MonoBehaviour:
   BGM:
   - {fileID: 8300000, guid: c10885dc49db8114ea7c8708e439d6ab, type: 3}
   - {fileID: 8300000, guid: fcb7de9558602c4469a6f24bccff1aa5, type: 3}
-  BGMName: 0000000001000000
+  BGMName: 0000000007000000
 --- !u!4 &2091549429
 Transform:
   m_ObjectHideFlags: 0

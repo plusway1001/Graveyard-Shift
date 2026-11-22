@@ -29,6 +29,8 @@ public class PlayerHealth : MonoBehaviour
     [Header("Audio (optional)")]
     [SerializeField] private AudioClip[] hurtClip, deathClip;
 
+    [SerializeField] private AudioClip GameOverSound;
+
     private void Awake()
     {
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>(true);
@@ -52,6 +54,10 @@ public class PlayerHealth : MonoBehaviour
         {
             if (deathClip != null && AudioManager.Instance != null)
                 AudioManager.Instance.PlaySFX(deathClip[Random.Range(0, deathClip.Length)]);
+
+            if (GameOverSound != null && AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(GameOverSound);
+
             GameOver();
         }
         else

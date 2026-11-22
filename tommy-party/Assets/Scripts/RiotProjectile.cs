@@ -17,7 +17,7 @@ public class RiotProjectile : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool hasHit;
-    public AudioClip clip;
+    public AudioClip clip, clip2;
 
     private void Awake()
     {
@@ -52,6 +52,14 @@ public class RiotProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("HidingSpot"))
+        {
+            if (AudioManager.Instance != null && clip != null)
+                AudioManager.Instance.PlaySFX(clip2);
+            Destroy(gameObject);
+            return;
+        }
+
         if (hasHit || !other.CompareTag("Player")) return;
         hasHit = true;
         PlayerHealth health = other.GetComponentInParent<PlayerHealth>();

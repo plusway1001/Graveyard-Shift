@@ -142,6 +142,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BananaPeel
   destroyPeelOnContact: 0
-  slipSound: {fileID: 8300000, guid: 4ea41bb259ccefd4787fd7f4cf9d2a5c, type: 3}
+  slipSound:
+  - {fileID: 8300000, guid: cf82ef8acd8067846ac578111235d2c8, type: 3}
+  - {fileID: 8300000, guid: de96e38e708438547a35c62732268b10, type: 3}
+  - {fileID: 8300000, guid: be802fa51d3bbb94c9c794f989523e73, type: 3}
+  slipSound2: {fileID: 8300000, guid: 4ea41bb259ccefd4787fd7f4cf9d2a5c, type: 3}
   hitEffects: {fileID: 4659758405916457758, guid: 90c7c82e635b3d84aa21087b3afb41c5, type: 3}
+  slipSpinDuration: 0.8
   healthHitProtection: 0.8

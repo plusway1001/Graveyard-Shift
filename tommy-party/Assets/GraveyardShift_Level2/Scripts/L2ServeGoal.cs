@@ -21,6 +21,8 @@ public class L2ServeGoal : MonoBehaviour
 
     private void Start() => Refresh();
 
+    [SerializeField] private AudioClip WinSound;
+
     /// <summary>Called by L2SeatedGhosts for every ghost it seats.</summary>
     public void RegisterSeated(TableService service)
     {
@@ -58,6 +60,9 @@ public class L2ServeGoal : MonoBehaviour
     {
         if (won) return;
         won = true;
+
+        if (AudioManager.Instance != null && WinSound != null) AudioManager.Instance.PlaySFX(WinSound);
+
         if (winScreen != null) winScreen.SetActive(true);
         if (pauseOnWin) Time.timeScale = 0f;
     }
