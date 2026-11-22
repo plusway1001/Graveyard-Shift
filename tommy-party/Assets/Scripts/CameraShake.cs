@@ -38,4 +38,10 @@ public class CameraShake : MonoBehaviour
         shakeDuration = duration;
         shakeMagnitude = magnitude;
     }
+
+    public void StopShake()
+    {
+        shakeDuration = 0f;
+        cameraFollow.shakeOffset = Vector3.zero;
+    }
 }

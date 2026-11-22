@@ -60,7 +60,7 @@ public class L2ServeGoal : MonoBehaviour
     {
         if (won) return;
         won = true;
-
+        CameraShake.Instance.StopShake();
         if (AudioManager.Instance != null && WinSound != null) AudioManager.Instance.PlaySFX(WinSound);
 
         if (winScreen != null) winScreen.SetActive(true);

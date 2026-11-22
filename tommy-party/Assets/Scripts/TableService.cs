@@ -49,6 +49,7 @@ public class TableService : MonoBehaviour
     public GameObject hitEffects;
     public Transform pos;
     public Transform PosCLeave;
+    public float shakeduration = 0.3f, shakemagnitude = 0.2f;
 
     private void Awake()
     {
@@ -203,6 +204,8 @@ public class TableService : MonoBehaviour
 
         if (hitEffects != null)
             Instantiate(hitEffects, PosCLeave.position, Quaternion.identity);
+
+        CameraShake.Instance.Shake(shakeduration, shakemagnitude);
 
         seated.Clear();
 

@@ -31,6 +31,8 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] private AudioClip GameOverSound;
 
+    public float shakeduration = 0.1f, shakemagnitude = 0.15f;
+
     private void Awake()
     {
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>(true);
@@ -49,6 +51,8 @@ public class PlayerHealth : MonoBehaviour
 
         CurrentLives = Mathf.Max(0, CurrentLives - amount);
         RefreshUI();
+
+        CameraShake.Instance.Shake(shakeduration, shakemagnitude);
 
         if (CurrentLives <= 0)
         {
@@ -133,6 +137,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void GameOver()
     {
+        CameraShake.Instance.StopShake();
         IsGameOver = true;
         IsInvulnerable = true;
         if (protectionRoutine != null) StopCoroutine(protectionRoutine);
