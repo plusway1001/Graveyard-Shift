@@ -400,7 +400,7 @@ Transform:
   m_GameObject: {fileID: 1079924}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -145.6641, y: 20.653585, z: 0}
+  m_LocalPosition: {x: -140.97, y: 19.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17536,10 +17536,10 @@ MonoBehaviour:
   roomName: Slaughter Room
   area:
     serializedVersion: 2
-    x: -201.59
-    y: -1.63
-    width: 18.669998
-    height: 19.249998
+    x: -203.6
+    y: -0.14
+    width: 18.8
+    height: 15.7
   traps:
   - {fileID: 711295001}
   - {fileID: 559059346}
@@ -17555,7 +17555,7 @@ MonoBehaviour:
   - {fileID: 1691939986}
   keepClearRadius: 2
   spacing: 2.2
-  wallPadding: 1.4
+  wallPadding: 1.6
   playerClearRadius: 3
   shuffleOnStart: 1
 --- !u!4 &1020430288
@@ -37071,11 +37071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 716864824975566450, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: shakeduration
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 716864824975566450, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: shakemagnitude
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 716864824975566450, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: eatingSounds.Array.size
@@ -37399,11 +37399,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1874266217705244566, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: shakeduration
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1874266217705244566, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: shakemagnitude
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 1874266217705244566, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: eatingSounds.Array.size
@@ -37752,7 +37752,7 @@ PrefabInstance:
     - target: {fileID: 3234914112270793056, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: breakClip
       value: 
-      objectReference: {fileID: 8300000, guid: 4ea41bb259ccefd4787fd7f4cf9d2a5c, type: 3}
+      objectReference: {fileID: 8300000, guid: fdab3c5a7d711d447b200f6d5901ec27, type: 3}
     - target: {fileID: 3234914112270793056, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: healthFill
       value: 
@@ -38091,11 +38091,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4280015105553182068, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: shakeduration
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4280015105553182068, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: shakemagnitude
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 4280015105553182068, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: eatingSounds.Array.size
@@ -38460,7 +38460,7 @@ PrefabInstance:
     - target: {fileID: 5663795748645149518, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: breakClip
       value: 
-      objectReference: {fileID: 8300000, guid: 4ea41bb259ccefd4787fd7f4cf9d2a5c, type: 3}
+      objectReference: {fileID: 8300000, guid: fdab3c5a7d711d447b200f6d5901ec27, type: 3}
     - target: {fileID: 5663795748645149518, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: healthFill
       value: 
@@ -38715,11 +38715,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6282741956336088889, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: shakeduration
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6282741956336088889, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: shakemagnitude
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 6282741956336088889, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: eatingSounds.Array.size
@@ -39352,7 +39352,7 @@ PrefabInstance:
     - target: {fileID: 9134084843737685765, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: breakClip
       value: 
-      objectReference: {fileID: 8300000, guid: 4ea41bb259ccefd4787fd7f4cf9d2a5c, type: 3}
+      objectReference: {fileID: 8300000, guid: fdab3c5a7d711d447b200f6d5901ec27, type: 3}
     - target: {fileID: 9134084843737685765, guid: 14757f4d4a9392545be4efde66db88b4, type: 3}
       propertyPath: healthFill
       value: 
