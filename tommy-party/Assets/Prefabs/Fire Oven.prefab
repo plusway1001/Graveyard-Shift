@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6898945676280027161}
   - component: {fileID: 8671453644587606886}
   - component: {fileID: 5418093390671562196}
+  - component: {fileID: 7151793321129369188}
   m_Layer: 0
   m_Name: Fire Oven
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -33.79, y: 9.85, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,7 +85,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 0.60007155, b: 0.2745098, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -156,4 +157,33 @@ MonoBehaviour:
   startOffset: 0.1
   damage: 1
   damageInterval: 1
-  inactiveAlpha: 0
+  inactiveAlpha: 1
+--- !u!114 &7151793321129369188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658410785234659099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a900241afc69549a86b1955c08b076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireTrap
+  offSprite: {fileID: 5949257212524181503, guid: acf28e456242a734fb56c8fadbdcd358, type: 3}
+  warningSprite: {fileID: -6474167391607297240, guid: 2ced79c0bd2302048b754b92ce613338, type: 3}
+  igniteSprite: {fileID: 7948721171730394104, guid: 9adf9d968b5aef24cbca82589242a0e1, type: 3}
+  burnLoop: []
+  burnFps: 10
+  offTime: 2
+  warningTime: 0.8
+  burnTime: 1.5
+  startDelay: 0
+  randomStart: 1
+  hitbox: {fileID: 0}
+  playerTag: Player
+  hitCooldown: 1
+  onPlayerHit:
+    m_PersistentCalls:
+      m_Calls: []
+  whooshSound: {fileID: 0}

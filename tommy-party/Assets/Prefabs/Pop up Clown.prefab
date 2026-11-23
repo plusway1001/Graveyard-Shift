@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 575246483092099274}
   - component: {fileID: 369992859186584811}
   - component: {fileID: 6296986944111515493}
+  - component: {fileID: 4319643692882599822}
   m_Layer: 0
   m_Name: Pop up Clown
   m_TagString: Untagged
@@ -84,7 +85,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.97893655, g: 0.27358478, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -156,4 +157,27 @@ MonoBehaviour:
   startOffset: 0
   damage: 1
   damageInterval: 1
-  inactiveAlpha: 0.23
+  inactiveAlpha: 1
+--- !u!114 &4319643692882599822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4866009375923048067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b616629c435d4244588a308af7e93ad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GraveChomperVisual
+  closedSprite: {fileID: 1292355749591565746, guid: 53388802af516d14d8dc31f5ae9cd7fc, type: 3}
+  warningSprite: {fileID: -3771739805461052969, guid: 457a70b94d15642499523c209995156a, type: 3}
+  openSprite: {fileID: 5197629912805927860, guid: 75fbe7b4d3cc485479ebe2a8649ee6f2, type: 3}
+  detectBy: 1
+  invert: 0
+  source: {fileID: 575246483092099274}
+  sourceCollider: {fileID: 369992859186584811}
+  warningTime: 0.12
+  biteScale: 1.12
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
