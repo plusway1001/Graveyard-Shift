@@ -77,6 +77,14 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip);
     }
 
+    public void PlaySFXTraps(AudioClip clip, float volume)
+    {
+        if (clip == null || sfxSource == null)
+            return;
+
+        sfxSource.PlayOneShot(clip, Mathf.Clamp01(volume));
+    }
+
     public void SetVolume(float Vol)
     {
         bgmSource.volume = Vol;

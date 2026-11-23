@@ -179,5 +179,5 @@ MonoBehaviour:
   sourceCollider: {fileID: 369992859186584811}
   warningTime: 0.12
   biteScale: 1.12
-  openSound: {fileID: 0}
-  closeSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 1f5b39d7bb1d6d74bb97bfc2a321171c, type: 3}
+  closeSound: {fileID: 8300000, guid: ee7781c003acd5f449835ce95b1e2969, type: 3}

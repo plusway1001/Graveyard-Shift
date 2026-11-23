@@ -269,6 +269,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: -6891972825815765821}
+  spikeUpClip: {fileID: 8300000, guid: 5ce982404c195f747a404bdf53bbc92d, type: 3}
+  spikeDownClip: {fileID: 8300000, guid: 48c87e781cc58e042ae458088edface8, type: 3}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!50 &-6891972825815765821
 Rigidbody2D:
   serializedVersion: 5

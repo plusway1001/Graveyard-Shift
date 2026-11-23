@@ -145,4 +145,4 @@ MonoBehaviour:
   fallDelay: 0.4
   retriggerCooldown: 0.5
   ignoreWhileDashing: 1
-  fallClip: {fileID: 0}
+  fallClip: {fileID: 8300000, guid: f8ef6c19b508f2f4cb5abde3ed7c5221, type: 3}

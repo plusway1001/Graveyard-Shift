@@ -30,8 +30,8 @@ public class FireTrap : MonoBehaviour
     [Tooltip("Hook your player's damage / lose-heart method here.")]
     public UnityEvent onPlayerHit;
 
-    [Header("Sound (optional)")]
-    public AudioClip whooshSound;
+    //[Header("Sound (optional)")]
+    //public AudioClip whooshSound;
 
     enum State { Off, Warning, Burn }
     State state = State.Off;
@@ -40,6 +40,13 @@ public class FireTrap : MonoBehaviour
     SpriteRenderer sr;
 
     public bool IsBurning => state == State.Burn;
+
+    [Header("Sound (optional)")]
+    public AudioClip whooshSound;
+    [Tooltip("Beyond this distance from the player the whoosh is silent.")]
+    public float hearDistance = 10f;
+
+    Transform playerTransform;
 
     void Awake()
     {
@@ -59,8 +66,32 @@ public class FireTrap : MonoBehaviour
         if (s == State.Burn)
         {
             sr.sprite = igniteSprite ? igniteSprite : (burnLoop.Length > 0 ? burnLoop[0] : offSprite);
-            if (whooshSound) AudioSource.PlayClipAtPoint(whooshSound, transform.position);
+            //if (whooshSound) AudioSource.PlayClipAtPoint(whooshSound, transform.position);
+            PlayWhoosh();
         }
+    }
+
+    void PlayWhoosh()
+    {
+        if (!whooshSound) return;
+
+        if (playerTransform == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag(playerTag);
+            if (p != null) playerTransform = p.transform;
+        }
+
+        float volume = 1f;
+
+        if (playerTransform != null)
+            volume = 1f - Vector2.Distance(transform.position, playerTransform.position) / hearDistance;
+
+        if (volume <= 0.02f) return;
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFXTraps(whooshSound, volume);
+        else
+            AudioSource.PlayClipAtPoint(whooshSound, transform.position);
     }
 
     void Update()

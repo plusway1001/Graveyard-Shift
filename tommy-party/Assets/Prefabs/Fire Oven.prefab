@@ -186,4 +186,4 @@ MonoBehaviour:
   onPlayerHit:
     m_PersistentCalls:
       m_Calls: []
-  whooshSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 3d461e751aeae5c4eaab34b904c18955, type: 3}

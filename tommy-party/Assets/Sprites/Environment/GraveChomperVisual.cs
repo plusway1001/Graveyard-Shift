@@ -33,6 +33,9 @@ public class GraveChomperVisual : MonoBehaviour
     float switchTimer, popTimer;
     Vector3 baseScale;
 
+    public float hearDistance = 10f;   // beyond this distance the trap is silent
+    private Transform playerTransform;
+
     void Awake()
     {
         if (!source) source = GetComponent<SpriteRenderer>();
@@ -84,7 +87,8 @@ public class GraveChomperVisual : MonoBehaviour
                 shownOpen = targetOpen;
                 art.sprite = shownOpen ? openSprite : closedSprite;
                 var clip = shownOpen ? openSound : closeSound;
-                if (clip) AudioSource.PlayClipAtPoint(clip, transform.position);
+                //if (clip) AudioSource.PlayClipAtPoint(clip, transform.position);
+                PlayTrapSound(clip);
                 if (shownOpen) popTimer = 0.15f;
             }
         }
@@ -96,5 +100,28 @@ public class GraveChomperVisual : MonoBehaviour
             art.transform.localScale = baseScale * Mathf.Lerp(1f, biteScale, k);
         }
         else art.transform.localScale = baseScale;
+    }
+
+    void PlayTrapSound(AudioClip clip)
+    {
+        if (!clip) return;
+
+        if (playerTransform == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p != null) playerTransform = p.transform;
+        }
+
+        float volume = 1f;
+
+        if (playerTransform != null)
+            volume = 1f - Vector2.Distance(transform.position, playerTransform.position) / hearDistance;
+
+        if (volume <= 0.02f) return;
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFXTraps(clip, volume);
+        else
+            AudioSource.PlayClipAtPoint(clip, transform.position);
     }
 }
