@@ -6463,6 +6463,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: 0}
+  spikeUpClip: {fileID: 0}
+  spikeDownClip: {fileID: 0}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!61 &364779395
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10061,6 +10066,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: 559059347}
+  spikeUpClip: {fileID: 0}
+  spikeDownClip: {fileID: 0}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!61 &559059349
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10358,6 +10368,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: 578087602}
+  spikeUpClip: {fileID: 0}
+  spikeDownClip: {fileID: 0}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!61 &578087604
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12054,6 +12069,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: 0}
+  spikeUpClip: {fileID: 0}
+  spikeDownClip: {fileID: 0}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!61 &666722108
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12832,6 +12852,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: 711295002}
+  spikeUpClip: {fileID: 0}
+  spikeDownClip: {fileID: 0}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!61 &711295004
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15124,6 +15149,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: 0}
+  spikeUpClip: {fileID: 0}
+  spikeDownClip: {fileID: 0}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!61 &830414521
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15956,8 +15986,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84496f7cd7ecf0e4399d91028570343e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxLives: 6
-  startingLives: 6
+  maxLives: 5
+  startingLives: 5
   livesText: {fileID: 819402419}
   gameOverPanel: {fileID: 1129832841}
   hitInvulnerability: 1
@@ -28821,6 +28851,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: 0}
+  spikeUpClip: {fileID: 0}
+  spikeDownClip: {fileID: 0}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!61 &1516395038
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30133,6 +30168,11 @@ MonoBehaviour:
   waitAtDestination: 0.5
   arrivalDistance: 0.05
   rb: {fileID: 0}
+  spikeUpClip: {fileID: 0}
+  spikeDownClip: {fileID: 0}
+  soundVolume: 1
+  hearingRadius: 8
+  fadeWithDistance: 1
 --- !u!61 &1581799111
 BoxCollider2D:
   m_ObjectHideFlags: 0
